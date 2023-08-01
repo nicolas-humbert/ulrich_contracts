@@ -2,6 +2,13 @@
 
 Juste a table in React with TS, yarn, and vite. Simply consists of a table performing crud operations.
 
+## Usage
+
+```bash
+yarn install
+yarn dev
+```
+
 ## React + TypeScript + Vite (Vite default README.md)
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
