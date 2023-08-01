@@ -7,17 +7,41 @@ import { FaSearch } from "react-icons/fa";
 import "../styles/table.scss";
 import "../styles/contracts-page.scss";
 
+type ContractsPageState = {
+  data: Contract[];
+  query: string;
+  filtered: Contract[];
+};
+
 const Contracts = () => {
-  const [state, setState] = useState<Contract[]>();
-  const [query, setquery] = useState("");
+  const [state, setState] = useState<ContractsPageState>({
+    data: [],
+    query: "",
+    filtered: [],
+  });
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleChange = (e: any) => {
-    setquery(e.target.value);
+    const results = state.data.filter((row) => {
+      if (e.target.value === "") return state.data;
+      return row.name_client
+        .toLowerCase()
+        .includes(e.target.value.toLowerCase());
+    });
+    setState({
+      ...state,
+      query: e.target.value,
+      filtered: results,
+    });
   };
 
-  const getData = () => {
-    fetch("./INPUTS.json", {
+  const onHandleQueryAbsence = () => {
+    if (state.query == "") return state.data;
+    else return state.filtered;
+  };
+
+  useEffect(() => {
+    fetch("/INPUTS.json", {
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
@@ -29,13 +53,10 @@ const Contracts = () => {
       })
 
       .then(function (myJson) {
-        setState(myJson);
+        setState({ ...state, data: myJson });
       });
-  };
-
-  useEffect(() => {
-    getData();
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state.query]);
 
   return (
     <div id="ContractsPage">
@@ -45,7 +66,7 @@ const Contracts = () => {
         <FaSearch size="50" />
         <input
           type="search"
-          value={query}
+          value={state.query}
           onChange={handleChange}
           placeholder="Chercher un client..."
         />
@@ -75,7 +96,10 @@ const Contracts = () => {
             </tr>
           </thead>
           <tbody>
-            {state?.map((s, id) => {
+            {/* This will help us loading the main table with data on loading */}
+            {/* If you can display full data with another method on loading */}
+            {/* and still keep the searchbox functional, go ahead */}
+            {onHandleQueryAbsence().map((s, id) => {
               if (s.proposition_num) {
                 console.log(id);
                 return (
@@ -90,6 +114,11 @@ const Contracts = () => {
           </tbody>
         </table>
       </main>
+      {state.filtered.length == 0 && (
+        <p className="no-contracts">
+          Il n'y a aucun contrat correspondant à votre recherche...
+        </p>
+      )}
     </div>
   );
 };

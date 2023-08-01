@@ -2,7 +2,6 @@
   font-family: "Lexend Mega", sans-serif;
   font-size: 0.95em;
   letter-spacing: -0.15em;
-  background-color: #ffff00;
 
   padding-top: 2em;
 
@@ -37,5 +36,11 @@
 
     width: fit-content;
     padding: 20px;
+  }
+
+  .no-contracts {
+    font-size: 2em;
+    text-align: center;
+    margin-top: 2em;
   }
 }
