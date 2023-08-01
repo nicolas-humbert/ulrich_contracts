@@ -1,0 +1,55 @@
+#MainTable {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.main-table-wrapper {
+  padding: 3em;
+}
+
+.main-table {
+  border: 3px solid #000000;
+  background-color: #ffffff;
+  border-radius: 2em;
+  padding: 1.5em 2em;
+  box-shadow: 0.9em 0.9em #000000;
+
+  // TABLE HEAD
+  thead {
+    position: relative;
+    height: 70px;
+  }
+  thead::after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 4px;
+    bottom: 10px;
+    left: 0;
+    background-color: #000000;
+  }
+  th {
+    padding: 10px;
+  }
+
+  // TABLE CONTENT
+  .evenRow {
+    background-color: #fcdfff;
+  }
+  .oddRow {
+    background-color: #ffffff;
+  }
+  td {
+    padding: 10px 10px;
+  }
+  .cell-centered {
+    text-align: center;
+  }
+  .crud-icon a {
+    color: #000000;
+    font-weight: 600;
+    font-size: 1.5em;
+  }
+}
