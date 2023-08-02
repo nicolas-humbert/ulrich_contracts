@@ -1,5 +1,7 @@
+@import "../styles/constants.scss";
+
 #ContractsPage {
-  font-family: "Lexend Mega", sans-serif;
+  font-family: $primaryFont;
   font-size: 0.95em;
   letter-spacing: -0.15em;
 
@@ -12,12 +14,12 @@
 
     input {
       font-size: 1.5em;
-      background-color: #ffffff;
+      background-color: $secondaryColor;
       padding: 10px 20px;
-      border: 3px dashed #000000;
+      border: 3px dashed $fontsColor;
       min-width: 30%;
       margin-left: 20px;
-      color: #000000;
+      color: $fontsColor;
     }
     input:focus {
       outline: none;

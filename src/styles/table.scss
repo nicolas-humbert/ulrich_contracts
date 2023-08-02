@@ -1,3 +1,5 @@
+@import "../styles/constants.scss";
+
 #MainTable {
   display: flex;
   justify-content: center;
@@ -7,11 +9,11 @@
 }
 
 .main-table {
-  border: 3px solid #000000;
-  background-color: #ffffff;
+  border: 3px solid $fontsColor;
+  background-color: $secondaryColor;
   border-radius: 2em;
   padding: 1.5em 2em;
-  box-shadow: 0.9em 0.9em #000000;
+  box-shadow: 0.9em 0.9em $fontsColor;
 
   // TABLE HEAD
   thead {
@@ -25,7 +27,7 @@
     height: 4px;
     bottom: 10px;
     left: 0;
-    background-color: #000000;
+    background-color: $fontsColor;
   }
   th {
     padding: 10px;
@@ -33,10 +35,10 @@
 
   // TABLE CONTENT
   .evenRow {
-    background-color: #fcdfff;
+    background-color: $tertiaryColor;
   }
   .oddRow {
-    background-color: #ffffff;
+    background-color: $secondaryColor;
   }
   td {
     padding: 10px 10px;
@@ -45,7 +47,7 @@
     text-align: center;
   }
   .crud-icon a {
-    color: #000000;
+    color: $fontsColor;
     font-weight: 600;
     font-size: 1.5em;
   }

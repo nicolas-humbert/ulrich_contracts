@@ -1,5 +1,7 @@
+@import "../styles/constants.scss";
+
 .no-search-result-message {
-  font-family: "Lexend Mega", sans-serif;
+  font-family: $primaryFont;
   font-size: 2em;
   letter-spacing: -0.05em;
   text-align: center;
