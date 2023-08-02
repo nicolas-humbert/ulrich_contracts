@@ -44,7 +44,6 @@ const Contracts = () => {
 
     for (let i = 0; i < state.data.length; i++) {
       const contractAsArray = Object.entries(state.data[i]);
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const filtered = contractAsArray.filter(([key, value]) => {
         if (e.target.value === "") return state.data;
         return value
