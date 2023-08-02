@@ -20,14 +20,43 @@ const Contracts = () => {
     filtered: [],
   });
 
+  // -----------------------------------------------------------------
+  // Older version of handleChange, searching only for clients names
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // const handleChange = (e: any) => {
+  //   const results = state.data.filter((row) => {
+  //     if (e.target.value === "") return state.data;
+  //     return row.name_client
+  //       .toLowerCase()
+  //       .includes(e.target.value.toLowerCase());
+  //   });
+  //   setState({
+  //     ...state,
+  //     query: e.target.value,
+  //     filtered: results,
+  //   });
+  // };
+  // ----------------------------------------------------------------
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleChange = (e: any) => {
-    const results = state.data.filter((row) => {
-      if (e.target.value === "") return state.data;
-      return row.name_client
-        .toLowerCase()
-        .includes(e.target.value.toLowerCase());
-    });
+    const results: Contract[] = [];
+
+    for (let i = 0; i < state.data.length; i++) {
+      const contractAsArray = Object.entries(state.data[i]);
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const filtered = contractAsArray.filter(([key, value]) => {
+        if (e.target.value === "") return state.data;
+        return value
+          .toString()
+          .toLowerCase()
+          .includes(e.target.value.toLowerCase());
+      });
+      if (filtered.length > 0) {
+        results.push(state.data[i]);
+      }
+    }
+
     setState({
       ...state,
       query: e.target.value,
@@ -101,7 +130,6 @@ const Contracts = () => {
             {/* and still keep the searchbox functional, go ahead */}
             {onHandleQueryAbsence().map((s, id) => {
               if (s.proposition_num) {
-                console.log(id);
                 return (
                   <ContractRow
                     contract={s}
