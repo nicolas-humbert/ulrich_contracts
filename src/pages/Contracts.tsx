@@ -71,11 +71,13 @@ const Contracts = () => {
   };
 
   useEffect(() => {
+    // fetch("http://f7b4-41-86-253-66.ngrok-free.app/api/v1/contracts", {
     fetch("/INPUTS.json", {
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
       },
+      mode: "cors",
     })
       .then(function (response) {
         // console.log(response);
@@ -89,7 +91,7 @@ const Contracts = () => {
   }, [state.query]);
 
   return (
-    <div id="ContractsPage">
+    <div id="ContractsPage" className="container">
       <div className="contracts-header">
         <PageTitle text="Contracts" />
 
