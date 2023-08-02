@@ -42,7 +42,7 @@ const ContractDetail = () => {
 
       .then(function (myJson) {
         const filtered: Contract = myJson.filter(
-          (c: Contract) => c.proposition_num.toString() === id
+          (c: Contract) => c.propositionNum.toString() === id
         )[0];
         setState({
           ...state,
@@ -63,7 +63,7 @@ const ContractDetail = () => {
         </div>
       ) : (
         <div className="container" id="ContractPage">
-          <PageTitle text={`Contract n° ${state.current.proposition_num}`} />
+          <PageTitle text={`Contract n° ${state.current.propositionNum}`} />
 
           <main>
             {/* INFORMATIONS GENERALES CONTRAT */}
@@ -73,32 +73,25 @@ const ContractDetail = () => {
             </h2>
             <div className="input-group input-flex-group">
               <TextField
-                label="proposition_num"
-                name="proposition_num"
-                id="proposition_num"
+                label="propositionNum"
+                name="propositionNum"
+                id="propositionNum"
                 type="text"
-                value={state.current.proposition_num}
+                value={state.current.propositionNum}
               />
               <TextField
-                label="code_product"
-                name="code_product"
-                id="code_product"
+                label="codeProduct"
+                name="codeProduct"
+                id="codeProduct"
                 type="text"
-                value={state.current.code_product}
+                value={state.current.codeProduct}
               />
               <TextField
-                label="contract_statusid_c_status"
-                name="contract_statusid_c_status"
-                id="contract_statusid_c_status"
+                label="status"
+                name="status"
+                id="status"
                 type="text"
-                value={state.current.contract_statusid_c_status}
-              />
-              <TextField
-                label="contracts_typeid_contract_type"
-                name="contracts_typeid_contract_type"
-                id="contracts_typeid_contract_type"
-                type="text"
-                value={state.current.contracts_typeid_contract_type}
+                value={state.current.status}
               />
             </div>
 
@@ -109,18 +102,32 @@ const ContractDetail = () => {
             </h2>
             <div className="input-group input-flex-group">
               <TextField
-                label="client_code"
-                name="client_code"
-                id="client_code"
+                label="codeClient"
+                name="codeClient"
+                id="codeClient"
                 type="text"
-                value={state.current.client_code}
+                value={state.current.codeClient}
               />
               <TextField
-                label="name_client"
-                name="name_client"
-                id="name_client"
+                label="nameClient"
+                name="nameClient"
+                id="nameClient"
                 type="text"
-                value={state.current.name_client}
+                value={state.current.nameClient}
+              />
+              <TextField
+                label="telClient"
+                name="telClient"
+                id="telClient"
+                type="text"
+                value={state.current.telClient}
+              />
+              <TextField
+                label="emailClient"
+                name="emailClient"
+                id="emailClient"
+                type="text"
+                value={state.current.emailClient}
               />
             </div>
 
@@ -131,18 +138,32 @@ const ContractDetail = () => {
             </h2>
             <div className="input-group input-flex-group">
               <TextField
-                label="payeur_code"
-                name="payeur_code"
-                id="payeur_code"
+                label="payeurCode"
+                name="payeurCode"
+                id="payeurCode"
                 type="text"
-                value={state.current.payeur_code}
+                value={state.current.payeurCode}
               />
               <TextField
-                label="name_payeur"
-                name="name_payeur"
-                id="name_payeur"
+                label="namePayeur"
+                name="namePayeur"
+                id="namePayeur"
                 type="text"
-                value={state.current.name_payeur}
+                value={state.current.namePayeur}
+              />
+              <TextField
+                label="surnamePayeur"
+                name="surnamePayeur"
+                id="surnamePayeur"
+                type="text"
+                value={state.current.surnamePayeur}
+              />
+              <TextField
+                label="telPayeur"
+                name="telPayeur"
+                id="telPayeur"
+                type="text"
+                value={state.current.telPayeur}
               />
             </div>
 
@@ -153,25 +174,25 @@ const ContractDetail = () => {
             </h2>
             <div className="input-group input-flex-group">
               <TextField
-                label="creation_date"
-                name="creation_date"
-                id="creation_date"
+                label="creationDate"
+                name="creationDate"
+                id="creationDate"
                 type="text"
-                value={state.current.creation_date}
+                value={state.current.creationDate}
               />
               <TextField
-                label="effect_date"
-                name="effect_date"
-                id="effect_date"
+                label="effectDate"
+                name="effectDate"
+                id="effectDate"
                 type="text"
-                value={state.current.effect_date}
+                value={state.current.effectDate}
               />
               <TextField
-                label="expiry_date"
-                name="expiry_date"
-                id="expiry_date"
+                label="expiryDate"
+                name="expiryDate"
+                id="expiryDate"
                 type="text"
-                value={state.current.expiry_date}
+                value={state.current.expiryDate}
               />
             </div>
 
@@ -182,32 +203,18 @@ const ContractDetail = () => {
             </h2>
             <div className="input-group input-flex-group">
               <TextField
-                label="code_agent"
-                name="code_agent"
-                id="code_agent"
+                label="nameRedac"
+                name="nameRedac"
+                id="nameRedac"
                 type="text"
-                value={state.current.code_agent}
+                value={state.current.nameRedac}
               />
               <TextField
-                label="name_redac"
-                name="name_redac"
-                id="name_redac"
+                label="codeAgent"
+                name="codeAgent"
+                id="codeAgent"
                 type="text"
-                value={state.current.name_redac}
-              />
-              <TextField
-                label="officeid_bur_dir"
-                name="officeid_bur_dir"
-                id="officeid_bur_dir"
-                type="text"
-                value={state.current.officeid_bur_dir}
-              />
-              <TextField
-                label="agentsid_agent"
-                name="agentsid_agent"
-                id="agentsid_agent"
-                type="text"
-                value={state.current.agentsid_agent}
+                value={state.current.codeAgent}
               />
             </div>
           </main>

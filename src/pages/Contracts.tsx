@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 
-import { Contract } from "../types/Contract";
 import ContractRow from "../components/ContractRow";
 
 import { FaSearch } from "react-icons/fa";
@@ -8,6 +7,7 @@ import "../styles/table.scss";
 import "../styles/contracts-page.scss";
 import PageTitle from "../components/PageTitle";
 import NoSearchResultMessage from "../components/NoSearchResultMessage";
+import { Contract } from "../types/Contract";
 
 type ContractsPageState = {
   data: Contract[];
@@ -48,10 +48,12 @@ const Contracts = () => {
       const contractAsArray = Object.entries(state.data[i]);
       const filtered = contractAsArray.filter(([key, value]) => {
         if (e.target.value === "") return state.data;
-        return value
-          .toString()
-          .toLowerCase()
-          .includes(e.target.value.toLowerCase());
+        if (value != null) {
+          return value
+            .toString()
+            .toLowerCase()
+            .includes(e.target.value.toLowerCase());
+        }
       });
       if (filtered.length > 0) {
         results.push(state.data[i]);
@@ -71,7 +73,6 @@ const Contracts = () => {
   };
 
   useEffect(() => {
-    // fetch("http://f7b4-41-86-253-66.ngrok-free.app/api/v1/contracts", {
     fetch("/INPUTS.json", {
       headers: {
         "Content-Type": "application/json",
@@ -83,7 +84,6 @@ const Contracts = () => {
         // console.log(response);
         return response.json();
       })
-
       .then(function (myJson) {
         setState({ ...state, data: myJson });
       });
@@ -111,20 +111,13 @@ const Contracts = () => {
             <tr>
               <th>Proposition</th>
               <th>Produit</th>
-              <th>Id Client</th>
-              <th>Id Payeur</th>
+              <th>ID Client</th>
               <th>Nom Client</th>
+              <th>ID Payeur</th>
               <th>Nom Payeur</th>
-              {/* <th>Creation</th> */}
-              {/* <th>Effet</th> */}
-              {/* <th>Expiration</th> */}
-              <th>Code Agent</th>
+              <th>Création</th>
               <th>Redacteur</th>
-              <th>Bureau</th>
-              <th>Status</th>
-              <th>Type</th>
-              {/* <th>agentsid_agent</th> */}
-              <th>Update</th>
+              <th>Statut</th>
             </tr>
           </thead>
           <tbody>
@@ -132,7 +125,7 @@ const Contracts = () => {
             {/* If you can display full data with another method on loading */}
             {/* and still keep the searchbox functional, go ahead */}
             {onHandleQueryAbsence().map((s, id) => {
-              if (s.proposition_num) {
+              if (s.propositionNum) {
                 return (
                   <ContractRow
                     contract={s}
