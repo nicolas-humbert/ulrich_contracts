@@ -9,7 +9,10 @@ function TextField(props: AriaTextFieldProps) {
     useTextField(props, ref);
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", width: 200 }}>
+    <div
+      className="input-block"
+      style={{ display: "flex", flexDirection: "column" }}
+    >
       <label {...labelProps}>{label}</label>
       <input {...inputProps} ref={ref} />
       {props.description && (

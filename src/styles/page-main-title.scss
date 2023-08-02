@@ -1,11 +1,13 @@
+@import "../styles/constants.scss";
+
 .page-main-title {
   margin-right: 2em;
   font-size: 3em;
 
-  border: 3px solid #000000;
-  background-color: #ffffff;
+  border: 3px solid $fontsColor;
+  background-color: $secondaryColor;
   border-radius: 0.5em;
-  box-shadow: 10px 10px #000000;
+  box-shadow: 10px 10px $fontsColor;
 
   width: fit-content;
   padding: 20px;
