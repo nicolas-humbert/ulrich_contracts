@@ -1,0 +1,39 @@
+@use "./constants.scss" as constants;
+
+@mixin container {
+  width: 100%;
+  align-self: center;
+  margin: auto;
+}
+
+$max-container-xs: 100%;
+$max-container-sm: 540px;
+$max-container-md: 768px;
+$max-container-lg: 992px;
+$max-container-xl: 1200px;
+$max-container-xxl: 1400px;
+
+@mixin make-container($minWidth, $breakpoint) {
+  @media (min-width: $minWidth) {
+    .container {
+      max-width: $breakpoint;
+      margin-right: auto;
+      margin-left: auto;
+    }
+  }
+}
+
+@include make-container(constants.$screen-sm-min, $max-container-sm);
+@include make-container(constants.$screen-md-min, $max-container-md);
+@include make-container(constants.$screen-lg-min, $max-container-lg);
+@include make-container(constants.$screen-xl-min, $max-container-xl);
+@include make-container(constants.$screen-xxl-min, $max-container-xxl);
+
+@media (max-width: constants.$screen-xs-max) {
+  .container {
+    max-width: 100%;
+    padding: 0px 4%;
+    margin-right: auto;
+    margin-left: auto;
+  }
+}
