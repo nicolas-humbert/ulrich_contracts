@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Contract } from "../types/Contract";
 import { useParams } from "react-router-dom";
+import PageTitle from "../components/PageTitle";
+import "../styles/contract-detail-page.scss";
+import NoSearchResultMessage from "../components/NoSearchResultMessage";
 
 type ContractPageState = {
   current: Contract;
@@ -38,9 +41,16 @@ const ContractDetail = () => {
   return (
     <div>
       {state?.current === undefined ? (
-        <p>No contract with this id</p>
+        <div id="NoContractPage">
+          <PageTitle text="404 Not Found" />
+          <NoSearchResultMessage
+            text={`Aucun contrat trouvé avec l'ID: ${id}`}
+          />
+        </div>
       ) : (
-        <p>Contract ID: {state?.current.proposition_num}</p>
+        <div id="ContractPage">
+          <PageTitle text={`Contract n° ${state.current.proposition_num}`} />
+        </div>
       )}
     </div>
   );

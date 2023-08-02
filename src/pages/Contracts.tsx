@@ -6,6 +6,8 @@ import ContractRow from "../components/ContractRow";
 import { FaSearch } from "react-icons/fa";
 import "../styles/table.scss";
 import "../styles/contracts-page.scss";
+import PageTitle from "../components/PageTitle";
+import NoSearchResultMessage from "../components/NoSearchResultMessage";
 
 type ContractsPageState = {
   data: Contract[];
@@ -89,7 +91,7 @@ const Contracts = () => {
   return (
     <div id="ContractsPage">
       <div className="contracts-header">
-        <h1 className="contracts-main-title">Contracts</h1>
+        <PageTitle text="Contracts" />
 
         <FaSearch size="50" />
         <input
@@ -142,9 +144,7 @@ const Contracts = () => {
         </table>
       </main>
       {state.filtered.length == 0 && (
-        <p className="no-contracts">
-          Il n'y a aucun contrat correspondant à votre recherche...
-        </p>
+        <NoSearchResultMessage text="Il n'y a aucun contrat correspondant à votre recherche..." />
       )}
     </div>
   );
