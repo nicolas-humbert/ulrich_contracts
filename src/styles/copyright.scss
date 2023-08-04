@@ -1,0 +1,14 @@
+@import "../styles/constants.scss";
+
+.footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  padding-bottom: 2%;
+  padding-left: 2%;
+
+  font-family: $primaryFont;
+  font-size: 1.5em;
+  color: $fontsColor;
+  letter-spacing: -0.1em;
+}
