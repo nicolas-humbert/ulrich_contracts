@@ -26,7 +26,7 @@ const ContractDetail = () => {
   useEffect(() => {
     // Changes color of the body to be less agressive on this page
     // Uses $tertiaryColor defined in src/styles/constants.scss
-    document.body.style.backgroundColor = "#fcdfff";
+    // document.body.style.backgroundColor = "#fcdfff";
 
     // Fetch
     // fetch("/INPUTS.json", {
@@ -65,7 +65,7 @@ const ContractDetail = () => {
         </div>
       ) : (
         <div className="container" id="ContractPage">
-          <PageTitle text={`Contract n° ${state.current.propositionNum}`} />
+          <PageTitle text={`Contrat n° ${state.current.propositionNum}`} />
 
           <main>
             {/* INFORMATIONS GENERALES CONTRAT */}
@@ -75,21 +75,23 @@ const ContractDetail = () => {
             </h2>
             <div className="input-group input-flex-group">
               <TextField
-                label="propositionNum"
+                label="Numéro de proposition"
                 name="propositionNum"
                 id="propositionNum"
                 type="text"
                 value={state.current.propositionNum}
+                isReadOnly
               />
               <TextField
-                label="codeProduct"
+                label="Code produit"
                 name="codeProduct"
                 id="codeProduct"
                 type="text"
                 value={state.current.codeProduct}
+                isReadOnly
               />
               <TextField
-                label="status"
+                label="Statut"
                 name="status"
                 id="status"
                 type="text"
@@ -104,31 +106,32 @@ const ContractDetail = () => {
             </h2>
             <div className="input-group input-flex-group">
               <TextField
-                label="codeClient"
+                label="Code client"
                 name="codeClient"
                 id="codeClient"
                 type="text"
                 value={state.current.codeClient}
+                isReadOnly
               />
               <TextField
-                label="nameClient"
+                label="Nom"
                 name="nameClient"
                 id="nameClient"
                 type="text"
                 value={state.current.nameClient}
               />
               <TextField
-                label="telClient"
+                label="Téléphone"
                 name="telClient"
                 id="telClient"
                 type="text"
                 value={state.current.telClient}
               />
               <TextField
-                label="emailClient"
+                label="Email"
                 name="emailClient"
                 id="emailClient"
-                type="text"
+                type="email"
                 value={state.current.emailClient}
               />
             </div>
@@ -140,28 +143,29 @@ const ContractDetail = () => {
             </h2>
             <div className="input-group input-flex-group">
               <TextField
-                label="payeurCode"
+                label="Code payeur"
                 name="payeurCode"
                 id="payeurCode"
                 type="text"
                 value={state.current.payeurCode}
+                isReadOnly
               />
               <TextField
-                label="namePayeur"
+                label="Nom"
                 name="namePayeur"
                 id="namePayeur"
                 type="text"
                 value={state.current.namePayeur}
               />
               <TextField
-                label="surnamePayeur"
+                label="Surnom"
                 name="surnamePayeur"
                 id="surnamePayeur"
                 type="text"
                 value={state.current.surnamePayeur}
               />
               <TextField
-                label="telPayeur"
+                label="Téléphone"
                 name="telPayeur"
                 id="telPayeur"
                 type="text"
@@ -176,21 +180,22 @@ const ContractDetail = () => {
             </h2>
             <div className="input-group input-flex-group">
               <TextField
-                label="creationDate"
+                label="Date de création"
                 name="creationDate"
                 id="creationDate"
                 type="text"
                 value={state.current.creationDate}
+                isReadOnly
               />
               <TextField
-                label="effectDate"
+                label="Date d'effet"
                 name="effectDate"
                 id="effectDate"
                 type="text"
                 value={state.current.effectDate}
               />
               <TextField
-                label="expiryDate"
+                label="Date d'expiration"
                 name="expiryDate"
                 id="expiryDate"
                 type="text"
@@ -205,30 +210,43 @@ const ContractDetail = () => {
             </h2>
             <div className="input-group input-flex-group">
               <TextField
-                label="nameRedac"
+                label="Nom du redacteur"
                 name="nameRedac"
                 id="nameRedac"
                 type="text"
                 value={state.current.nameRedac}
+                isReadOnly
               />
               <TextField
-                label="codeAgent"
+                label="Code agent"
                 name="codeAgent"
                 id="codeAgent"
                 type="text"
                 value={state.current.codeAgent}
+                isReadOnly
               />
             </div>
           </main>
 
-          <Button
-            className="delete-button"
-            onPress={() =>
-              confirm("Etes-vous sûr(e) de vouloir supprimer ce contrat ?")
-            }
-          >
-            SUPPRIMER LE CONTRAT
-          </Button>
+          <div className="action-buttons">
+            <Button
+              className="action-button update-button"
+              onPress={() =>
+                confirm("Etes-vous sûr(e) de vouloir modifier ce contrat ?")
+              }
+            >
+              APPLIQUER LES MODIFICATIONS
+            </Button>
+
+            <Button
+              className="action-button delete-button"
+              onPress={() =>
+                confirm("Etes-vous sûr(e) de vouloir supprimer ce contrat ?")
+              }
+            >
+              SUPPRIMER LE CONTRAT
+            </Button>
+          </div>
         </div>
       )}
     </div>
