@@ -73,7 +73,8 @@ const Contracts = () => {
   };
 
   useEffect(() => {
-    fetch("/INPUTS.json", {
+    fetch("http://localhost:5168/api/Contract", {
+      // fetch("/INPUTS.json", {
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",

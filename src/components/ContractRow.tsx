@@ -10,6 +10,7 @@ interface IContractRowProps {
 
 const ContractRow: React.FC<IContractRowProps> = ({ contract, className }) => {
   const {
+    id,
     propositionNum,
     codeProduct,
     nameClient,
@@ -47,7 +48,7 @@ const ContractRow: React.FC<IContractRowProps> = ({ contract, className }) => {
       <td className="cell-centered">{status}</td>
 
       <td className="cell-centered crud-icon">
-        <NavLink to={`${CONTRACTS_LINK}/${propositionNum}`}>
+        <NavLink to={`${CONTRACTS_LINK}/${id}`}>
           <AiOutlineFile />
         </NavLink>
       </td>

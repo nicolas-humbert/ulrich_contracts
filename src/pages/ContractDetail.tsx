@@ -29,32 +29,34 @@ const ContractDetail = () => {
     document.body.style.backgroundColor = "#fcdfff";
 
     // Fetch
-    fetch("/INPUTS.json", {
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-    })
-      .then(function (response) {
-        // console.log(response);
-        return response.json();
+    // fetch("/INPUTS.json", {
+    async function fetchContract() {
+      await fetch(`http://localhost:5168/api/Contract/${id}`, {
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
       })
-
-      .then(function (myJson) {
-        const filtered: Contract = myJson.filter(
-          (c: Contract) => c.propositionNum.toString() === id
-        )[0];
-        setState({
-          ...state,
-          current: filtered,
+        .then((response) => response.json())
+        .then((data) =>
+          setState({
+            current: data,
+          })
+        )
+        .catch((error) => {
+          throw error;
         });
-      });
+    }
+
+    fetchContract();
+
+    console.log(state);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   return (
     <div>
-      {state?.current === undefined ? (
+      {!state?.current.propositionNum ? (
         <div id="NoContractPage">
           <PageTitle text="404 Not Found" />
           <NoSearchResultMessage
