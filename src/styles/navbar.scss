@@ -1,0 +1,53 @@
+@import "../styles/constants.scss";
+
+.main-navigation-sidebar {
+  position: fixed;
+  height: 80%;
+  width: 18%;
+  top: 0;
+  left: 0;
+
+  padding: 40px;
+  margin: 2% 0 0 2%;
+
+  background-color: $secondaryColor;
+  border: 4px solid $fontsColor;
+  border-radius: 10px;
+  box-shadow: 10px 10px 0 0 $fontsColor;
+
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: start;
+
+  font-family: $primaryFont;
+  font-size: 1.3em;
+}
+
+.site-title {
+  margin-bottom: 40px;
+  position: relative;
+  padding-bottom: 10px;
+  text-transform: uppercase;
+
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 8px;
+    width: 50%;
+    background-color: $buttonColor;
+    border-end-end-radius: 2px;
+    box-shadow: 4px 4px 0 0px $fontsColor;
+  }
+}
+
+.nav-item {
+  padding: 10px;
+}
+
+a {
+  color: $fontsColor !important;
+  text-decoration: none;
+}
