@@ -1,11 +1,12 @@
+import Home from "./pages/Home";
 import About from "./pages/About";
 import Login from "./pages/Login";
-import Home from "./pages/Home";
 import Contracts from "./pages/Contracts";
 
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import {
   ABOUT_LINK,
+  ADD_CONTRACT_LINK,
   CONTRACTS_DETAIL_LINK,
   CONTRACTS_LINK,
   HOME_LINK,
@@ -14,6 +15,7 @@ import {
 import ContractDetail from "./pages/ContractDetail";
 import Navbar from "./layout/Navbar";
 import Copyright from "./layout/Copyright";
+import NewContract from "./pages/NewContract";
 
 function App() {
   return (
@@ -26,6 +28,7 @@ function App() {
           <Route path={ABOUT_LINK} element={<About />} />
           <Route path={CONTRACTS_LINK} element={<Contracts />} />
           <Route path={CONTRACTS_DETAIL_LINK} element={<ContractDetail />} />
+          <Route path={ADD_CONTRACT_LINK} element={<NewContract />} />
         </Routes>
       </div>
       <Copyright />

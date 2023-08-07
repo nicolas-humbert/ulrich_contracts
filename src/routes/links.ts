@@ -4,3 +4,4 @@ export const LOGIN_LINK = "/login";
 export const CONTRACTS_LINK = "/contracts";
 
 export const CONTRACTS_DETAIL_LINK = `${CONTRACTS_LINK}/:id`;
+export const ADD_CONTRACT_LINK = `${CONTRACTS_LINK}/new`;
