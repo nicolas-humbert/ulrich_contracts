@@ -37,25 +37,26 @@ const ContractDetail = () => {
         },
       })
         .then((response) => response.json())
-        .then((data) =>
-          setState({
-            current: data,
-          })
-        )
+        .then((data) => {
+          {
+            console.log(state?.current);
+            setState({
+              current: data,
+            });
+          }
+        })
         .catch((error) => {
           throw error;
         });
     }
 
     fetchContract();
-
-    console.log(state);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   return (
     <div>
-      {!state?.current.propositionNum ? (
+      {!state?.current.id ? (
         <div id="NoContractPage">
           <PageTitle text="404 Not Found" />
           <NoSearchResultMessage
