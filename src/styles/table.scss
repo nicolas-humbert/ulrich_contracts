@@ -25,15 +25,20 @@
     position: absolute;
     width: 100%;
     height: 4px;
-    bottom: 10px;
+    bottom: 30px;
     left: 0;
     background-color: $fontsColor;
   }
   th {
     padding: 10px;
+    padding-bottom: 40px;
   }
 
   // TABLE CONTENT
+  tbody {
+    font-family: $secondaryFont;
+    letter-spacing: 0.01em;
+  }
   .evenRow {
     background-color: $tertiaryColor;
   }

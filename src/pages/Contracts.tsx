@@ -73,22 +73,26 @@ const Contracts = () => {
   };
 
   useEffect(() => {
-    fetch("/INPUTS.json", {
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      mode: "cors",
-    })
-      .then(function (response) {
-        // console.log(response);
-        return response.json();
+    async function fetchContracts() {
+      fetch("http://localhost:5111/api/Contract", {
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        mode: "cors",
       })
-      .then(function (myJson) {
-        setState({ ...state, data: myJson });
-      });
+        .then(function (response) {
+          // console.log(response);
+          return response.json();
+        })
+        .then(function (myJson) {
+          setState({ ...state, data: myJson });
+        });
+    }
+
+    fetchContracts();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state.query]);
+  }, []);
 
   return (
     <div id="ContractsPage" className="container">
@@ -111,9 +115,9 @@ const Contracts = () => {
             <tr>
               <th>Proposition</th>
               <th>Produit</th>
-              <th>ID Client</th>
+              <th>Client</th>
               <th>Nom Client</th>
-              <th>ID Payeur</th>
+              <th>Payeur</th>
               <th>Nom Payeur</th>
               <th>Création</th>
               <th>Redacteur</th>
@@ -138,7 +142,7 @@ const Contracts = () => {
           </tbody>
         </table>
       </main>
-      {state.filtered.length == 0 && (
+      {state.filtered.length == 0 && state.query !== "" && (
         <NoSearchResultMessage text="Il n'y a aucun contrat correspondant à votre recherche..." />
       )}
     </div>

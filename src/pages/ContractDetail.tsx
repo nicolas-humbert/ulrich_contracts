@@ -29,9 +29,8 @@ const ContractDetail = () => {
     // document.body.style.backgroundColor = "#fcdfff";
 
     // Fetch
-    // fetch("/INPUTS.json", {
     async function fetchContract() {
-      await fetch(`http://localhost:5168/api/Contract/${id}`, {
+      await fetch(`http://localhost:5111/api/Contract/${id}`, {
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
