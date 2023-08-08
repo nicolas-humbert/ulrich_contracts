@@ -53,71 +53,9 @@
     row-gap: 1em;
   }
 
-  .input-bloc {
-    width: fit-content;
-    min-width: 45%;
-  }
-
-  input {
-    font-size: 1.5em;
-    padding: 10px 20px;
-    background-color: $secondaryColor;
-    border: 2px solid $fontsColor;
-    border-radius: 10px;
-    color: $fontsColor;
-    margin-top: 5px;
-    margin-bottom: 20px;
-
-    &:focus {
-      outline: 1px solid $buttonColor;
-      box-shadow: 0px 0px 0px 3px $buttonColor;
-    }
-
-    &:read-only {
-      background-color: $tertiaryColor;
-      border: 2px solid $buttonColor;
-      outline: none;
-    }
-
-    &:read-only:focus {
-      outline: none;
-      box-shadow: none;
-    }
-
-    &:read-only:hover {
-      cursor: not-allowed;
-    }
-  }
-
   .action-buttons {
     display: flex;
     align-items: center;
     justify-content: space-between;
-  }
-
-  .action-button {
-    font-family: $primaryFont;
-    font-size: 1.4em;
-
-    border: 3px solid $fontsColor;
-    border-radius: 10px;
-
-    color: $fontsColor;
-    outline: none;
-
-    padding: 0.5em 1em;
-    margin-bottom: 2em;
-
-    &:hover {
-      cursor: pointer;
-    }
-  }
-
-  .update-button {
-    background-color: $tertiaryColor;
-  }
-
-  .delete-button {
-    background-color: $warningColor;
   }
 }

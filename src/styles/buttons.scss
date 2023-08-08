@@ -1,0 +1,44 @@
+@import "./constants.scss";
+
+.action-button {
+  font-family: $primaryFont;
+  font-size: 1.4em;
+  text-transform: uppercase;
+
+  border: 3px solid $fontsColor;
+  border-radius: 10px;
+
+  color: $fontsColor;
+  outline: none;
+
+  padding: 0.5em 1em;
+  margin-bottom: 2em;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.update-button {
+  background-color: $tertiaryColor;
+}
+
+.delete-button {
+  background-color: $warningColor;
+}
+
+.validate-button {
+  background-color: $validateColor;
+}
+
+.login-button {
+  color: $tertiaryColor;
+  background-color: $fontsColor;
+  padding: 0.5em 1em;
+  border-radius: 10px;
+
+  outline: none;
+  &:hover {
+    cursor: not-allowed;
+  }
+}

@@ -15,41 +15,10 @@
     letter-spacing: -0.1em;
     margin-bottom: 0.7em;
   }
-
-  .input-bloc {
-    width: 500px;
-    min-width: 30%;
-    max-width: 100%;
-    padding-bottom: 2em;
-  }
-
   input {
-    font-size: 1.5em;
-    border: 3px solid $fontsColor;
-    border-radius: 10px;
-
-    color: $fontsColor;
-    background-color: $secondaryColor;
-
-    padding: 0.5em 1em;
-
-    outline: none;
-  }
-  label {
-    font-size: 1.3em;
-  }
-
-  .login-button {
-    font-family: $primaryFont;
-    font-size: 1.5em;
-    color: $tertiaryColor;
-    background-color: $fontsColor;
-    padding: 0.5em 1em;
-    border-radius: 10px;
-
-    outline: none;
-    &:hover {
-      cursor: not-allowed;
-    }
+    width: 50vw;
+    max-width: 500px;
+    min-width: 400px;
+    margin-bottom: 40px;
   }
 }
