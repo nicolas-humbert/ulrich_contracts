@@ -129,7 +129,7 @@ const Contracts = () => {
             {/* If you can display full data with another method on loading */}
             {/* and still keep the searchbox functional, go ahead */}
             {onHandleQueryAbsence().map((s, id) => {
-              if (s.propositionNum) {
+              if (s.id) {
                 return (
                   <ContractRow
                     contract={s}

@@ -1,4 +1,5 @@
 export type AddContractRequest = {
+  propositionNum: string;
   codeProduct: string;
   nameClient: string;
   telClient: string;
