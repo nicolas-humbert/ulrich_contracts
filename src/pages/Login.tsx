@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import TextField from "../components/TextField";
+import CTextField from "../components/CTextField";
 import "../styles/login-page.scss";
 import { Button } from "react-aria-components";
 
@@ -14,14 +14,14 @@ const Login = () => {
     <div className="container" id="LoginPage">
       <h1 className="login-title">LOGIN</h1>
       <form action="GET" className="login-form">
-        <TextField
+        <CTextField
           placeholder="w.carrot@ldd.com"
           label="Email"
           name="email"
           id="email"
           type="email"
         />
-        <TextField
+        <CTextField
           placeholder="Votre mot de passe..."
           label="Mot de passe"
           name="password"
@@ -31,7 +31,7 @@ const Login = () => {
       </form>
 
       <Button
-        className="login-button"
+        className="action-button login-button"
         type="submit"
         onPress={() => alert("Not implemented")}
       >

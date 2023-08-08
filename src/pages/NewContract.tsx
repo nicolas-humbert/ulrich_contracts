@@ -1,7 +1,7 @@
 import { FormEvent, useState } from "react";
 import PageTitle from "../components/PageTitle";
 import "../styles/new-contract-page.scss";
-import TextField from "../components/TextField";
+import CTextField from "../components/CTextField";
 import { AddContractRequest } from "../types/AddContractRequest";
 import { Button } from "react-aria-components";
 import { useNavigate } from "react-router-dom";
@@ -13,6 +13,7 @@ import { BASE_BACKEND_URL } from "../utils/URLS";
 
 const NewContract = () => {
   const [state, setState] = useState<AddContractRequest>({
+    propositionNum: "",
     codeProduct: "",
     nameClient: "",
     telClient: "",
@@ -85,11 +86,18 @@ const NewContract = () => {
           <FaProductHunt size="30" />
           Produit
         </h2>
-        <div className="input-group">
-          <TextField
+        <div className="input-group input-flex-group">
+          <CTextField
+            isRequired
+            label="Numéro de proposition"
+            autoFocus
+            id="propositionNum"
+            name="propositionNum"
+            onChange={(e) => handleInputChange(e, "propositionNum")}
+          />
+          <CTextField
             isRequired
             label="Code Produit"
-            autoFocus
             id="codeProduct"
             name="codeProduct"
             onChange={(e) => handleInputChange(e, "codeProduct")}
@@ -101,34 +109,30 @@ const NewContract = () => {
           Client
         </h2>
         <div className="input-group input-flex-group">
-          <TextField
+          <CTextField
             isRequired
             label="Nom"
-            autoFocus
             id="nameClient"
             name="nameClient"
             onChange={(e) => handleInputChange(e, "nameClient")}
           />
-          <TextField
+          <CTextField
             isRequired
             label="Téléphone"
-            autoFocus
             id="telClient"
             name="telClient"
             onChange={(e) => handleInputChange(e, "telClient")}
           />
-          <TextField
+          <CTextField
             isRequired
             label="Email"
-            autoFocus
             id="emailClient"
             name="emailClient"
             onChange={(e) => handleInputChange(e, "emailClient")}
           />
-          <TextField
+          <CTextField
             isRequired
             label="Identifiant"
-            autoFocus
             id="codeClient"
             name="codeClient"
             onChange={(e) => handleInputChange(e, "codeClient")}
@@ -140,34 +144,30 @@ const NewContract = () => {
           Payeur
         </h2>
         <div className="input-group input-flex-group">
-          <TextField
+          <CTextField
             isRequired
             label="Nom"
-            autoFocus
             id="namePayeur"
             name="namePayeur"
             onChange={(e) => handleInputChange(e, "namePayeur")}
           />
-          <TextField
+          <CTextField
             isRequired
             label="Téléphone"
-            autoFocus
             id="telPayeur"
             name="telPayeur"
             onChange={(e) => handleInputChange(e, "telPayeur")}
           />
-          <TextField
+          <CTextField
             isRequired
             label="Surnom"
-            autoFocus
             id="surnamePayeur"
             name="surnamePayeur"
             onChange={(e) => handleInputChange(e, "surnamePayeur")}
           />
-          <TextField
+          <CTextField
             isRequired
             label="Identifiant"
-            autoFocus
             id="payeurCode"
             name="payeurCode"
             onChange={(e) => handleInputChange(e, "payeurCode")}
@@ -179,27 +179,38 @@ const NewContract = () => {
           Agent
         </h2>
         <div className="input-group input-flex-group">
-          <TextField
+          <CTextField
             isRequired
             label="Nom du rédacteur"
-            autoFocus
             id="nameRedac"
             name="nameRedac"
             onChange={(e) => handleInputChange(e, "nameRedac")}
           />
-          <TextField
+          <CTextField
             isRequired
             label="Identifiant"
-            autoFocus
             id="codeAgent"
             name="codeAgent"
             onChange={(e) => handleInputChange(e, "codeAgent")}
           />
         </div>
       </form>
-      <Button type="submit" form="add-new-contract">
-        Soumettre
-      </Button>
+      <div className="action-buttons">
+        <Button
+          type="reset"
+          form="add-new-contract"
+          className="action-button delete-button"
+        >
+          Effacer
+        </Button>
+        <Button
+          type="submit"
+          form="add-new-contract"
+          className="action-button validate-button"
+        >
+          Soumettre
+        </Button>
+      </div>
     </div>
   );
 };

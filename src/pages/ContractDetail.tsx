@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import PageTitle from "../components/PageTitle";
 import "../styles/contract-detail-page.scss";
 import NoSearchResultMessage from "../components/NoSearchResultMessage";
-import TextField from "../components/TextField";
+import CTextField from "../components/CTextField";
 import {
   BiSolidCalendarEdit,
   BiSolidInfoSquare,
@@ -74,7 +74,7 @@ const ContractDetail = () => {
               Détails
             </h2>
             <div className="input-group input-flex-group">
-              <TextField
+              <CTextField
                 label="Numéro de proposition"
                 name="propositionNum"
                 id="propositionNum"
@@ -82,7 +82,7 @@ const ContractDetail = () => {
                 value={state.current.propositionNum}
                 isReadOnly
               />
-              <TextField
+              <CTextField
                 label="Code produit"
                 name="codeProduct"
                 id="codeProduct"
@@ -90,7 +90,7 @@ const ContractDetail = () => {
                 value={state.current.codeProduct}
                 isReadOnly
               />
-              <TextField
+              <CTextField
                 label="Statut"
                 name="status"
                 id="status"
@@ -105,7 +105,7 @@ const ContractDetail = () => {
               Client
             </h2>
             <div className="input-group input-flex-group">
-              <TextField
+              <CTextField
                 label="Code client"
                 name="codeClient"
                 id="codeClient"
@@ -113,21 +113,21 @@ const ContractDetail = () => {
                 value={state.current.codeClient}
                 isReadOnly
               />
-              <TextField
+              <CTextField
                 label="Nom"
                 name="nameClient"
                 id="nameClient"
                 type="text"
                 value={state.current.nameClient}
               />
-              <TextField
+              <CTextField
                 label="Téléphone"
                 name="telClient"
                 id="telClient"
                 type="text"
                 value={state.current.telClient}
               />
-              <TextField
+              <CTextField
                 label="Email"
                 name="emailClient"
                 id="emailClient"
@@ -142,7 +142,7 @@ const ContractDetail = () => {
               Payeur
             </h2>
             <div className="input-group input-flex-group">
-              <TextField
+              <CTextField
                 label="Code payeur"
                 name="payeurCode"
                 id="payeurCode"
@@ -150,21 +150,21 @@ const ContractDetail = () => {
                 value={state.current.payeurCode}
                 isReadOnly
               />
-              <TextField
+              <CTextField
                 label="Nom"
                 name="namePayeur"
                 id="namePayeur"
                 type="text"
                 value={state.current.namePayeur}
               />
-              <TextField
+              <CTextField
                 label="Surnom"
                 name="surnamePayeur"
                 id="surnamePayeur"
                 type="text"
                 value={state.current.surnamePayeur}
               />
-              <TextField
+              <CTextField
                 label="Téléphone"
                 name="telPayeur"
                 id="telPayeur"
@@ -179,7 +179,7 @@ const ContractDetail = () => {
               Dates
             </h2>
             <div className="input-group input-flex-group">
-              <TextField
+              <CTextField
                 label="Date de création"
                 name="creationDate"
                 id="creationDate"
@@ -187,14 +187,14 @@ const ContractDetail = () => {
                 value={state.current.creationDate}
                 isReadOnly
               />
-              <TextField
+              <CTextField
                 label="Date d'effet"
                 name="effectDate"
                 id="effectDate"
                 type="text"
                 value={state.current.effectDate}
               />
-              <TextField
+              <CTextField
                 label="Date d'expiration"
                 name="expiryDate"
                 id="expiryDate"
@@ -209,7 +209,7 @@ const ContractDetail = () => {
               Agents
             </h2>
             <div className="input-group input-flex-group">
-              <TextField
+              <CTextField
                 label="Nom du redacteur"
                 name="nameRedac"
                 id="nameRedac"
@@ -217,7 +217,7 @@ const ContractDetail = () => {
                 value={state.current.nameRedac}
                 isReadOnly
               />
-              <TextField
+              <CTextField
                 label="Code agent"
                 name="codeAgent"
                 id="codeAgent"
