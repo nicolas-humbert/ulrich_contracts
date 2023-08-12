@@ -97,7 +97,7 @@ const Contracts = () => {
   return (
     <div id="ContractsPage" className="container">
       <div className="contracts-header">
-        <PageTitle text="Contracts" />
+        <PageTitle text="Contrats" />
 
         <FaSearch size="50" />
         <input
