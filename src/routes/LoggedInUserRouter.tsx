@@ -13,6 +13,7 @@ import {
   MASS_ADD_LINK,
   CONTRACTS_DETAIL_LINK,
 } from "./links";
+import NotFound from "../pages/NotFound";
 
 const LoggedInUserRouter = () => {
   return (
@@ -23,7 +24,7 @@ const LoggedInUserRouter = () => {
       <Route path={ADD_CONTRACT_LINK} element={<NewContract />} />
       <Route path={MASS_ADD_LINK} element={<MassAdd />} />
       <Route path={CONTRACTS_DETAIL_LINK} element={<ContractDetail />} />
-      <Route path={"*"} element={<Home />} />
+      <Route path={"*"} element={<NotFound />} />
     </Routes>
   );
 };
