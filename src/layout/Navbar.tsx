@@ -1,4 +1,3 @@
-import React from "react";
 import { NavLink } from "react-router-dom";
 import {
   ABOUT_LINK,
@@ -15,28 +14,35 @@ import "../styles/navbar.scss";
 const Navbar = () => {
   return (
     <nav role="tablist" className="main-navigation-sidebar">
-      <header className="site-title">
-        <NavLink to={HOME_LINK}>Smartract</NavLink>
-      </header>
+      <div className="tabs-navigation">
+        <header className="site-title">
+          <NavLink to={HOME_LINK}>Smartract</NavLink>
+        </header>
 
-      <NavLink className="nav-item" role="menuitem" to={LOGIN_LINK}>
-        <BiUser /> <span>Connexion</span>
-      </NavLink>
+        <NavLink className="nav-item" role="menuitem" to={ABOUT_LINK}>
+          <BiInfoCircle /> <span>À Propos</span>
+        </NavLink>
 
-      <NavLink className="nav-item" role="menuitem" to={ABOUT_LINK}>
-        <BiInfoCircle /> <span>À Propos</span>
-      </NavLink>
+        <NavLink className="nav-item" role="menuitem" to={CONTRACTS_LINK}>
+          <BiFile /> <span>Contrats</span>
+        </NavLink>
 
-      <NavLink className="nav-item" role="menuitem" to={CONTRACTS_LINK}>
-        <BiFile /> <span>Contrats</span>
-      </NavLink>
+        <NavLink className="nav-item" role="menuitem" to={ADD_CONTRACT_LINK}>
+          <BiUserPlus /> <span>Nouveau</span>
+        </NavLink>
 
-      <NavLink className="nav-item" role="menuitem" to={ADD_CONTRACT_LINK}>
-        <BiUserPlus /> <span>Nouveau</span>
-      </NavLink>
+        <NavLink className="nav-item" role="menuitem" to={MASS_ADD_LINK}>
+          <AiOutlineFileAdd /> <span>Ajout CSV</span>
+        </NavLink>
+      </div>
 
-      <NavLink className="nav-item" role="menuitem" to={MASS_ADD_LINK}>
-        <AiOutlineFileAdd /> <span>Ajout CSV</span>
+      <NavLink
+        className="nav-item"
+        role="menuitem"
+        onClick={() => alert("Not implemented")}
+        to={LOGIN_LINK}
+      >
+        <BiUser /> <span>Déconnexion</span>
       </NavLink>
     </nav>
   );

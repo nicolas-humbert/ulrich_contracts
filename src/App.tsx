@@ -1,39 +1,26 @@
-import Home from "./pages/Home";
-import About from "./pages/About";
-import Login from "./pages/Login";
-import Contracts from "./pages/Contracts";
-
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import {
-  ABOUT_LINK,
-  ADD_CONTRACT_LINK,
-  CONTRACTS_DETAIL_LINK,
-  CONTRACTS_LINK,
-  HOME_LINK,
-  LOGIN_LINK,
-  MASS_ADD_LINK,
-} from "./routes/links";
-import ContractDetail from "./pages/ContractDetail";
+import { BrowserRouter } from "react-router-dom";
 import Navbar from "./layout/Navbar";
 import Copyright from "./layout/Copyright";
-import NewContract from "./pages/NewContract";
-import MassAdd from "./pages/MassAdd";
+import LoggedInUserRouter from "./routes/LoggedInUserRouter";
+import AnonymousUserRouter from "./routes/AnonymousUserRouter";
+import { IS_LOGGED_IN_USER } from "./utils/USER";
 
 function App() {
+  // Determines if user is logged in or not
+  // For now use src/utils/USER.ts to tweak the values
+  // Change auth value to anything truthy for user logged in and admin
+  // Otherwise 0 for anonymous user
+
   return (
     <BrowserRouter>
-      <Navbar />
-      <div id="ApplicationBody">
-        <Routes>
-          <Route path={HOME_LINK} element={<Home />} />
-          <Route path={LOGIN_LINK} element={<Login />} />
-          <Route path={ABOUT_LINK} element={<About />} />
-          <Route path={CONTRACTS_LINK} element={<Contracts />} />
-          <Route path={ADD_CONTRACT_LINK} element={<NewContract />} />
-          <Route path={MASS_ADD_LINK} element={<MassAdd />} />
-          <Route path={CONTRACTS_DETAIL_LINK} element={<ContractDetail />} />
-        </Routes>
-      </div>
+      {IS_LOGGED_IN_USER ? (
+        <div id="ApplicationBody">
+          <Navbar />
+          <LoggedInUserRouter />
+        </div>
+      ) : (
+        <AnonymousUserRouter />
+      )}
       <Copyright />
     </BrowserRouter>
   );
