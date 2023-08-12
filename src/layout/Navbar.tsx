@@ -6,8 +6,10 @@ import {
   CONTRACTS_LINK,
   HOME_LINK,
   LOGIN_LINK,
+  MASS_ADD_LINK,
 } from "../routes/links";
 import { BiFile, BiInfoCircle, BiUser, BiUserPlus } from "react-icons/bi";
+import { AiOutlineFileAdd } from "react-icons/ai";
 import "../styles/navbar.scss";
 
 const Navbar = () => {
@@ -31,6 +33,10 @@ const Navbar = () => {
 
       <NavLink className="nav-item" role="menuitem" to={ADD_CONTRACT_LINK}>
         <BiUserPlus /> <span>Nouveau</span>
+      </NavLink>
+
+      <NavLink className="nav-item" role="menuitem" to={MASS_ADD_LINK}>
+        <AiOutlineFileAdd /> <span>Ajout CSV</span>
       </NavLink>
     </nav>
   );
