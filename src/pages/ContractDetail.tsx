@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Contract } from "../types/Contract";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import PageTitle from "../components/PageTitle";
 import "../styles/contract-detail-page.scss";
 import NoSearchResultMessage from "../components/NoSearchResultMessage";
@@ -13,6 +13,9 @@ import {
   BiSolidUserPlus,
 } from "react-icons/bi";
 import { Button } from "react-aria-components";
+import axios from "axios";
+import { BASE_BACKEND_URL } from "../utils/URLS";
+import { CONTRACTS_LINK } from "../routes/links";
 
 type ContractPageState = {
   current: Contract;
@@ -22,12 +25,9 @@ const ContractDetail = () => {
   const [state, setState] = useState<ContractPageState>();
 
   const { id } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    // Changes color of the body to be less agressive on this page
-    // Uses $tertiaryColor defined in src/styles/constants.scss
-    // document.body.style.backgroundColor = "#fcdfff";
-
     // Fetch
     async function fetchContract() {
       await fetch(`http://localhost:5111/api/Contract/${id}`, {
@@ -39,7 +39,7 @@ const ContractDetail = () => {
         .then((response) => response.json())
         .then((data) => {
           {
-            console.log(state?.current);
+            // console.log(state?.current);
             setState({
               current: data,
             });
@@ -53,6 +53,25 @@ const ContractDetail = () => {
     fetchContract();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
+
+  function onHandleDelete() {
+    axios
+      .delete(`${BASE_BACKEND_URL}/api/Contract/${id}`)
+      .then((response) => {
+        console.log(response.data);
+        navigate(`${CONTRACTS_LINK}`);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
+  function onHandlePressDeleteButton(): void {
+    const result = confirm("Voulez-vous vraiment supprimer ce contrat?");
+    if (result == true) {
+      onHandleDelete();
+    }
+  }
 
   return (
     <div>
@@ -240,9 +259,7 @@ const ContractDetail = () => {
 
             <Button
               className="action-button delete-button"
-              onPress={() =>
-                confirm("Etes-vous sûr(e) de vouloir supprimer ce contrat ?")
-              }
+              onPress={onHandlePressDeleteButton}
             >
               SUPPRIMER LE CONTRAT
             </Button>
