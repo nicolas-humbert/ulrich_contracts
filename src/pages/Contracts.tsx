@@ -1,18 +1,19 @@
 import { useEffect, useState } from "react";
 
 import ContractRow from "../components/ContractRow";
-
 import { FaSearch } from "react-icons/fa";
 import "../styles/table.scss";
 import "../styles/contracts-page.scss";
 import PageTitle from "../components/PageTitle";
 import NoSearchResultMessage from "../components/NoSearchResultMessage";
 import { Contract } from "../types/Contract";
+import Spinner from "../components/Spinner";
 
 type ContractsPageState = {
   data: Contract[];
   query: string;
   filtered: Contract[];
+  loading: boolean;
 };
 
 const Contracts = () => {
@@ -20,25 +21,8 @@ const Contracts = () => {
     data: [],
     query: "",
     filtered: [],
+    loading: true,
   });
-
-  // -----------------------------------------------------------------
-  // Older version of handleChange, searching only for clients names
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  // const handleChange = (e: any) => {
-  //   const results = state.data.filter((row) => {
-  //     if (e.target.value === "") return state.data;
-  //     return row.name_client
-  //       .toLowerCase()
-  //       .includes(e.target.value.toLowerCase());
-  //   });
-  //   setState({
-  //     ...state,
-  //     query: e.target.value,
-  //     filtered: results,
-  //   });
-  // };
-  // ----------------------------------------------------------------
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleChange = (e: any) => {
@@ -86,13 +70,17 @@ const Contracts = () => {
           return response.json();
         })
         .then(function (myJson) {
-          setState({ ...state, data: myJson });
+          setState({ ...state, data: myJson, loading: false });
         });
     }
 
     fetchContracts();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  if (state.loading) {
+    return <Spinner />;
+  }
 
   return (
     <div id="ContractsPage" className="container">

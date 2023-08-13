@@ -16,18 +16,24 @@ import { Button } from "react-aria-components";
 import axios from "axios";
 import { BASE_BACKEND_URL } from "../utils/URLS";
 import { CONTRACTS_LINK } from "../routes/links";
+import Spinner from "../components/Spinner";
 
 type ContractPageState = {
-  current: Contract;
+  current?: Contract;
+  loading: boolean;
 };
 
 const ContractDetail = () => {
-  const [state, setState] = useState<ContractPageState>();
+  const [state, setState] = useState<ContractPageState>({
+    current: undefined,
+    loading: true,
+  });
 
   const { id } = useParams();
   const navigate = useNavigate();
 
   useEffect(() => {
+    setState;
     // Fetch
     async function fetchContract() {
       await fetch(`http://localhost:5111/api/Contract/${id}`, {
@@ -42,6 +48,7 @@ const ContractDetail = () => {
             // console.log(state?.current);
             setState({
               current: data,
+              loading: false,
             });
           }
         })
@@ -73,9 +80,13 @@ const ContractDetail = () => {
     }
   }
 
+  if (state.loading) {
+    return <Spinner />;
+  }
+
   return (
     <div>
-      {!state?.current.id ? (
+      {!state?.current?.id ? (
         <div id="NoContractPage">
           <PageTitle text="404 Not Found" />
           <NoSearchResultMessage
