@@ -1,15 +1,14 @@
 import { useEffect, useState } from "react";
-
+import axios from "axios";
+import { BASE_BACKEND_URL } from "../utils/URLS";
+import { Contract } from "../types/Contract";
+import Spinner from "../components/Spinner";
+import PageTitle from "../components/PageTitle";
 import ContractRow from "../components/ContractRow";
+import NoSearchResultMessage from "../components/NoSearchResultMessage";
 import { FaSearch } from "react-icons/fa";
 import "../styles/table.scss";
 import "../styles/contracts-page.scss";
-import PageTitle from "../components/PageTitle";
-import NoSearchResultMessage from "../components/NoSearchResultMessage";
-import { Contract } from "../types/Contract";
-import Spinner from "../components/Spinner";
-import axios from "axios";
-import { BASE_BACKEND_URL } from "../utils/URLS";
 
 type ContractsPageState = {
   data: Contract[];

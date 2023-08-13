@@ -1,7 +1,7 @@
 import { useEffect } from "react";
+import { Button } from "react-aria-components";
 import CTextField from "../components/CTextField";
 import "../styles/login-page.scss";
-import { Button } from "react-aria-components";
 
 const Login = () => {
   useEffect(() => {
@@ -12,7 +12,7 @@ const Login = () => {
 
   return (
     <div className="container" id="LoginPage">
-      <h1 className="login-title">LOGIN</h1>
+      <h1 className="login-title">SMARTRACT</h1>
       <form action="GET" className="login-form">
         <CTextField
           placeholder="w.carrot@ldd.com"

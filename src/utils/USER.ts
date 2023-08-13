@@ -5,7 +5,7 @@
 export let IS_LOGGED_IN_USER: boolean;
 export let USER_IS_ADMIN: boolean;
 
-const auth: number = 1;
+const auth: number = 0;
 const admin: number = 1;
 
 if (auth) {

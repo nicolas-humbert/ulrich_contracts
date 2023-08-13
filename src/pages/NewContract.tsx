@@ -1,15 +1,15 @@
 import { FormEvent, useState } from "react";
-import PageTitle from "../components/PageTitle";
-import "../styles/new-contract-page.scss";
-import CTextField from "../components/CTextField";
-import { AddContractRequest } from "../types/AddContractRequest";
-import { Button } from "react-aria-components";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { CONTRACTS_LINK } from "../routes/links";
+import { BASE_BACKEND_URL } from "../utils/URLS";
+import { Button } from "react-aria-components";
+import PageTitle from "../components/PageTitle";
+import CTextField from "../components/CTextField";
 import { FaProductHunt } from "react-icons/fa";
 import { FiUserCheck, FiUserMinus, FiUsers } from "react-icons/fi";
-import axios from "axios";
-import { BASE_BACKEND_URL } from "../utils/URLS";
+import { AddContractRequest } from "../types/AddContractRequest";
+import "../styles/new-contract-page.scss";
 
 const NewContract = () => {
   const [state, setState] = useState<AddContractRequest>({

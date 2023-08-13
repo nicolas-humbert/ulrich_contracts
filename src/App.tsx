@@ -1,9 +1,9 @@
 import { BrowserRouter } from "react-router-dom";
-import Navbar from "./layout/Navbar";
-import Copyright from "./layout/Copyright";
+import { IS_LOGGED_IN_USER } from "./utils/USER";
 import LoggedInUserRouter from "./routes/LoggedInUserRouter";
 import AnonymousUserRouter from "./routes/AnonymousUserRouter";
-import { IS_LOGGED_IN_USER } from "./utils/USER";
+import Navbar from "./layout/Navbar";
+import Copyright from "./layout/Copyright";
 
 function App() {
   // Determines if user is logged in or not

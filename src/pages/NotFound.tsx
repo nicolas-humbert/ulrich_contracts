@@ -1,14 +1,18 @@
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import PageTitle from "../components/PageTitle";
-import { useEffect } from "react";
-import { CONTRACTS_LINK, LOGIN_LINK } from "../routes/links";
 import { IS_LOGGED_IN_USER } from "../utils/USER";
+import { CONTRACTS_LINK, LOGIN_LINK } from "../routes/links";
 import "../styles/not-found.scss";
 
 const NotFound = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    // Changes color of the body to be less agressive on this page
+    // Uses color defined in index.css
+    document.body.style.backgroundColor = "#f4f5f0";
+
     setTimeout(() => {
       if (IS_LOGGED_IN_USER) {
         navigate(`${CONTRACTS_LINK}`);

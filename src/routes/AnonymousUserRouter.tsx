@@ -1,7 +1,7 @@
-import { Route, Routes } from "react-router-dom";
 import Login from "../pages/Login";
-import { LOGIN_LINK } from "./links";
 import NotFound from "../pages/NotFound";
+import { LOGIN_LINK } from "./links";
+import { Route, Routes } from "react-router-dom";
 
 const AnonymousUserRouter = () => {
   return (

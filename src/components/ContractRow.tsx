@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
-import { AiOutlineFile } from "react-icons/ai";
 import { CONTRACTS_LINK } from "../routes/links";
 import { Contract } from "../types/Contract";
+import { AiOutlineFile } from "react-icons/ai";
 
 interface IContractRowProps {
   contract: Contract;

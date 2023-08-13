@@ -1,10 +1,14 @@
-import React, { useState, useEffect } from "react";
-import { Contract } from "../types/Contract";
+import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import axios from "axios";
+import { CONTRACTS_LINK } from "../routes/links";
+import { BASE_BACKEND_URL } from "../utils/URLS";
+import { Contract } from "../types/Contract";
+import { Button } from "react-aria-components";
+import Spinner from "../components/Spinner";
 import PageTitle from "../components/PageTitle";
-import "../styles/contract-detail-page.scss";
-import NoSearchResultMessage from "../components/NoSearchResultMessage";
 import CTextField from "../components/CTextField";
+import NoSearchResultMessage from "../components/NoSearchResultMessage";
 import {
   BiSolidCalendarEdit,
   BiSolidInfoSquare,
@@ -12,11 +16,7 @@ import {
   BiSolidUserDetail,
   BiSolidUserPlus,
 } from "react-icons/bi";
-import { Button } from "react-aria-components";
-import axios from "axios";
-import { BASE_BACKEND_URL } from "../utils/URLS";
-import { CONTRACTS_LINK } from "../routes/links";
-import Spinner from "../components/Spinner";
+import "../styles/contract-detail-page.scss";
 
 type ContractPageState = {
   current?: Contract;

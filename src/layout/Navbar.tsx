@@ -7,8 +7,8 @@ import {
   LOGIN_LINK,
   MASS_ADD_LINK,
 } from "../routes/links";
-import { BiFile, BiInfoCircle, BiUser, BiUserPlus } from "react-icons/bi";
 import { AiOutlineFileAdd } from "react-icons/ai";
+import { BiFile, BiInfoCircle, BiUser, BiUserPlus } from "react-icons/bi";
 import "../styles/navbar.scss";
 
 const Navbar = () => {
