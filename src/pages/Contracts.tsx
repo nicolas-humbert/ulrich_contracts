@@ -8,6 +8,8 @@ import PageTitle from "../components/PageTitle";
 import NoSearchResultMessage from "../components/NoSearchResultMessage";
 import { Contract } from "../types/Contract";
 import Spinner from "../components/Spinner";
+import axios from "axios";
+import { BASE_BACKEND_URL } from "../utils/URLS";
 
 type ContractsPageState = {
   data: Contract[];
@@ -57,20 +59,20 @@ const Contracts = () => {
   };
 
   useEffect(() => {
-    async function fetchContracts() {
-      fetch("http://localhost:5111/api/Contract", {
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        mode: "cors",
-      })
-        .then(function (response) {
-          // console.log(response);
-          return response.json();
+    function fetchContracts() {
+      axios
+        .get(`${BASE_BACKEND_URL}/api/Contract/`, {
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
         })
-        .then(function (myJson) {
-          setState({ ...state, data: myJson, loading: false });
+        .then(function (response) {
+          setState({ ...state, data: response.data, loading: false });
+        })
+        .catch((err) => {
+          setState({ ...state, loading: false });
+          throw err;
         });
     }
 
@@ -130,9 +132,19 @@ const Contracts = () => {
           </tbody>
         </table>
       </main>
-      {state.filtered.length == 0 && state.query !== "" && (
-        <NoSearchResultMessage text="Il n'y a aucun contrat correspondant à votre recherche..." />
+      {state.data.length == 0 && (
+        <NoSearchResultMessage
+          text="Une erreur s'est produite ou vous n'avez pas encore de contrats. 
+          Contactez votre administrateur pour plus d'informations."
+        />
       )}
+
+      {/* Bad code I know, needs to be rewritten */}
+      {state.filtered.length == 0 &&
+        state.query !== "" &&
+        state.data.length != 0 && (
+          <NoSearchResultMessage text="Il n'y a aucun contrat correspondant à votre recherche." />
+        )}
     </div>
   );
 };

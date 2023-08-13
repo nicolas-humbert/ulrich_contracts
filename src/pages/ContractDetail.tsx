@@ -35,24 +35,28 @@ const ContractDetail = () => {
   useEffect(() => {
     setState;
     // Fetch
-    async function fetchContract() {
-      await fetch(`http://localhost:5111/api/Contract/${id}`, {
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-      })
-        .then((response) => response.json())
-        .then((data) => {
+    function fetchContract() {
+      axios
+        .get(`${BASE_BACKEND_URL}/api/Contract/${id}`, {
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+        })
+        .then((response) => {
           {
             // console.log(state?.current);
             setState({
-              current: data,
+              current: response.data,
               loading: false,
             });
           }
         })
         .catch((error) => {
+          setState({
+            ...state,
+            loading: false,
+          });
           throw error;
         });
     }
@@ -86,9 +90,9 @@ const ContractDetail = () => {
 
   return (
     <div>
-      {!state?.current?.id ? (
+      {!state?.current ? (
         <div id="NoContractPage">
-          <PageTitle text="404 Not Found" />
+          <PageTitle text="404 - Not Found" />
           <NoSearchResultMessage
             text={`Aucun contrat trouvé avec l'ID: ${id}`}
           />
