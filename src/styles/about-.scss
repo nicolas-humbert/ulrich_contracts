@@ -1,0 +1,32 @@
+@import "./constants.scss";
+
+#About {
+  margin-top: 2em;
+
+  main {
+    margin: 4em 0;
+  }
+
+  h2 {
+    font-size: 1.6em;
+    margin-top: 2em;
+    margin-bottom: 1.5em;
+    position: relative;
+
+    &:after {
+      content: "";
+      position: absolute;
+      width: 70px;
+      height: 4px;
+      left: 0;
+      bottom: -5px;
+      background-color: $buttonColor;
+      box-shadow: 3px 3px 0 0 $fontsColor;
+    }
+  }
+
+  p {
+    text-align: justify;
+    font-size: 1.2em;
+  }
+}
