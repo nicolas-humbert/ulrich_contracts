@@ -3,10 +3,10 @@
 // 0 for false, anything else number for true
 
 export let IS_LOGGED_IN_USER: boolean;
-export let USER_IS_ADMIN: boolean;
+export let IS_ADMIN_USER: boolean;
 
-const auth: number = 0;
-const admin: number = 1;
+const auth: number = 1;
+const admin: number = 0;
 
 if (auth) {
   IS_LOGGED_IN_USER = true;
@@ -15,9 +15,9 @@ if (auth) {
 }
 
 if (admin) {
-  USER_IS_ADMIN = true;
+  IS_ADMIN_USER = true;
 } else {
-  USER_IS_ADMIN = false;
+  IS_ADMIN_USER = false;
 }
 
-export default { IS_LOGGED_IN_USER, USER_IS_ADMIN };
+export default { IS_LOGGED_IN_USER, IS_ADMIN_USER };

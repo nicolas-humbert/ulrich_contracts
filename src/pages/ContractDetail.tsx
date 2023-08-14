@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, Key } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { CONTRACTS_LINK } from "../routes/links";
@@ -8,6 +8,8 @@ import { Button } from "react-aria-components";
 import Spinner from "../components/Spinner";
 import PageTitle from "../components/PageTitle";
 import CTextField from "../components/CTextField";
+import CSelectItem from "../components/CSelectItem";
+import CSelectField from "../components/CSelectField";
 import NoSearchResultMessage from "../components/NoSearchResultMessage";
 import {
   BiSolidCalendarEdit,
@@ -16,7 +18,10 @@ import {
   BiSolidUserDetail,
   BiSolidUserPlus,
 } from "react-icons/bi";
+import { IS_ADMIN_USER } from "../utils/USER";
 import "../styles/contract-detail-page.scss";
+import "../styles/error.scss";
+import ErrorMessage from "../components/ErrorMessage";
 
 type ContractPageState = {
   current?: Contract;
@@ -28,6 +33,7 @@ const ContractDetail = () => {
     current: undefined,
     loading: true,
   });
+  const [error, setError] = useState<Error>();
 
   const { id } = useParams();
   const navigate = useNavigate();
@@ -52,11 +58,12 @@ const ContractDetail = () => {
             });
           }
         })
-        .catch((error) => {
+        .catch((err) => {
           setState({
             ...state,
             loading: false,
           });
+          setError(err);
           throw error;
         });
     }
@@ -65,6 +72,36 @@ const ContractDetail = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
+  function onHandleSelectChange(e: Key) {
+    setState({
+      ...state,
+      current: {
+        ...state.current,
+        status: parseInt(e.toString()),
+      },
+    });
+  }
+
+  function onHandleActionButton(message: string, callback: () => void) {
+    const result = confirm(message);
+    if (result) {
+      callback();
+    }
+  }
+
+  function onHandleUpdate(): void {
+    axios
+      .put(`${BASE_BACKEND_URL}/api/Contract/${id}`, state.current)
+      .then((response) => {
+        console.log(response.status);
+        navigate(0);
+      })
+      .catch((err) => {
+        setError(err);
+        console.log(err);
+      });
+  }
+
   function onHandleDelete() {
     axios
       .delete(`${BASE_BACKEND_URL}/api/Contract/${id}`)
@@ -72,16 +109,10 @@ const ContractDetail = () => {
         console.log(response.data);
         navigate(`${CONTRACTS_LINK}`);
       })
-      .catch((error) => {
+      .catch((err) => {
+        setError(err);
         console.error(error);
       });
-  }
-
-  function onHandlePressDeleteButton(): void {
-    const result = confirm("Voulez-vous vraiment supprimer ce contrat?");
-    if (result == true) {
-      onHandleDelete();
-    }
   }
 
   if (state.loading) {
@@ -113,7 +144,7 @@ const ContractDetail = () => {
                 name="propositionNum"
                 id="propositionNum"
                 type="text"
-                value={state.current.propositionNum}
+                value={state.current.propositionNum?.toString()}
                 isReadOnly
               />
               <CTextField
@@ -121,16 +152,26 @@ const ContractDetail = () => {
                 name="codeProduct"
                 id="codeProduct"
                 type="text"
-                value={state.current.codeProduct}
+                value={state.current.codeProduct?.toString()}
                 isReadOnly
               />
-              <CTextField
+              <CSelectField
                 label="Statut"
-                name="status"
                 id="status"
-                type="text"
-                value={state.current.status}
-              />
+                name="status"
+                selectedKey={state.current.status}
+                onSelectionChange={(e) => onHandleSelectChange(e)}
+              >
+                <CSelectItem id={1} key={1}>
+                  Nouveau
+                </CSelectItem>
+                <CSelectItem id={2} key={2}>
+                  En cours
+                </CSelectItem>
+                <CSelectItem id={3} key={3}>
+                  Fermé
+                </CSelectItem>
+              </CSelectField>
             </div>
 
             {/* INFORMATIONS CLIENT */}
@@ -153,6 +194,7 @@ const ContractDetail = () => {
                 id="nameClient"
                 type="text"
                 value={state.current.nameClient}
+                isReadOnly={!IS_ADMIN_USER}
               />
               <CTextField
                 label="Téléphone"
@@ -160,6 +202,7 @@ const ContractDetail = () => {
                 id="telClient"
                 type="text"
                 value={state.current.telClient}
+                isReadOnly={!IS_ADMIN_USER}
               />
               <CTextField
                 label="Email"
@@ -167,6 +210,7 @@ const ContractDetail = () => {
                 id="emailClient"
                 type="email"
                 value={state.current.emailClient}
+                isReadOnly={!IS_ADMIN_USER}
               />
             </div>
 
@@ -181,7 +225,7 @@ const ContractDetail = () => {
                 name="payeurCode"
                 id="payeurCode"
                 type="text"
-                value={state.current.payeurCode}
+                value={state.current.payeurCode?.toString()}
                 isReadOnly
               />
               <CTextField
@@ -190,6 +234,7 @@ const ContractDetail = () => {
                 id="namePayeur"
                 type="text"
                 value={state.current.namePayeur}
+                isReadOnly={!IS_ADMIN_USER}
               />
               <CTextField
                 label="Surnom"
@@ -197,6 +242,7 @@ const ContractDetail = () => {
                 id="surnamePayeur"
                 type="text"
                 value={state.current.surnamePayeur}
+                isReadOnly={!IS_ADMIN_USER}
               />
               <CTextField
                 label="Téléphone"
@@ -204,6 +250,7 @@ const ContractDetail = () => {
                 id="telPayeur"
                 type="text"
                 value={state.current.telPayeur}
+                isReadOnly={!IS_ADMIN_USER}
               />
             </div>
 
@@ -227,6 +274,7 @@ const ContractDetail = () => {
                 id="effectDate"
                 type="text"
                 value={state.current.effectDate}
+                isReadOnly={!IS_ADMIN_USER}
               />
               <CTextField
                 label="Date d'expiration"
@@ -234,6 +282,7 @@ const ContractDetail = () => {
                 id="expiryDate"
                 type="text"
                 value={state.current.expiryDate}
+                isReadOnly={!IS_ADMIN_USER}
               />
             </div>
 
@@ -256,17 +305,22 @@ const ContractDetail = () => {
                 name="codeAgent"
                 id="codeAgent"
                 type="text"
-                value={state.current.codeAgent}
+                value={state.current.codeAgent?.toString()}
                 isReadOnly
               />
             </div>
           </main>
 
+          {error && <ErrorMessage error={error} />}
+
           <div className="action-buttons">
             <Button
               className="action-button update-button"
               onPress={() =>
-                confirm("Etes-vous sûr(e) de vouloir modifier ce contrat ?")
+                onHandleActionButton(
+                  "Etes-vous sûr(e) de vouloir modifier ce contrat ?",
+                  onHandleUpdate
+                )
               }
             >
               APPLIQUER LES MODIFICATIONS
@@ -274,7 +328,12 @@ const ContractDetail = () => {
 
             <Button
               className="action-button delete-button"
-              onPress={onHandlePressDeleteButton}
+              onPress={() =>
+                onHandleActionButton(
+                  "Voulez-vous vraiment supprimer ce contrat?",
+                  onHandleDelete
+                )
+              }
             >
               SUPPRIMER LE CONTRAT
             </Button>
