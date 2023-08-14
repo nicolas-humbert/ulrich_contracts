@@ -19,6 +19,11 @@
     margin-bottom: 20px;
     display: flex;
     gap: 1em;
+    cursor: pointer;
+
+    &:focus-visible {
+      outline: none;
+    }
   }
 }
 
@@ -33,4 +38,15 @@
 
 .react-aria-Popover {
   width: 250px;
+}
+
+.c-item {
+  cursor: pointer;
+
+  &:hover {
+    outline: none;
+  }
+  &:focus-visible {
+    outline: none;
+  }
 }
