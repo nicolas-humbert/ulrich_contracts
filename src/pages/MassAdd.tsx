@@ -7,6 +7,8 @@ import { Button } from "react-aria-components";
 import PageTitle from "../components/PageTitle";
 import { AiFillFileAdd } from "react-icons/ai";
 import "../styles/mass-add.scss";
+import "../styles/error.scss";
+import ErrorMessage from "../components/ErrorMessage";
 
 const MassAdd = () => {
   const [file, setFile] = useState<File>();
@@ -43,7 +45,6 @@ const MassAdd = () => {
       .catch((err) => {
         console.error(err);
         setError(err);
-        alert("Une erreur s'est produite");
       });
   };
 
@@ -73,18 +74,9 @@ const MassAdd = () => {
       </form>
 
       {error && (
-        <div className="error-notification">
-          <p className="error-message">
-            Une erreur s'est produite. Merci de contacter votre administrateur
-            et vous assurer que la procédure a été respectée.
-          </p>
-          <div className="error-content">
-            <p>Fichier: {file?.name}</p>
-            <p>Message: {error.message}</p>
-            <p>Code erreur: {error.name}</p>
-            {/* <p>Code erreur: {error.stack}</p> */}
-          </div>
-        </div>
+        <ErrorMessage error={error}>
+          <p>Fichier: {file?.name}</p>
+        </ErrorMessage>
       )}
     </div>
   );

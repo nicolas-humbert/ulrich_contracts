@@ -1,0 +1,29 @@
+@import "./constants.scss";
+
+.error-notification {
+  margin: 2em 0;
+  width: 100%;
+  color: $warningColor;
+  font-family: $secondaryFont;
+
+  .error-message {
+    font-size: 1.3em;
+    margin-bottom: 2em;
+  }
+
+  .error-content {
+    font-size: 1em;
+    margin-left: 5%;
+    position: relative;
+
+    &:before {
+      content: "";
+      position: absolute;
+      width: 5px;
+      height: 100%;
+      top: 0;
+      left: -20px;
+      background-color: $warningColor;
+    }
+  }
+}
