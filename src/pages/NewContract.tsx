@@ -30,7 +30,13 @@ const NewContract = () => {
 
   const onSendingPostRequest = (data: AddContractRequest) => {
     axios
-      .post(`/api/v1/contracts`, data)
+      .post(`/api/v1/contracts`, data, {
+        headers: {
+          "ngrok-skip-browser-warning": "69420",
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+      })
       .then(function (response) {
         console.log(response);
         navigate(`${CONTRACTS_LINK}/${response.data.id}`);
@@ -44,12 +50,16 @@ const NewContract = () => {
     event.preventDefault();
 
     const date = new Date().toISOString();
+    // const y = date.getFullYear();
+    // const m = date.getMonth();
+    // const d = date.getDate();
+    // const formattedDate: string = `${y}-${m}-${d}`;
     const dataToSubmit = {
       ...state,
       creationDate: date,
       effectDate: date,
       expiryDate: date,
-      status: 1,
+      status: "Nouveau",
     };
 
     onSendingPostRequest(dataToSubmit);

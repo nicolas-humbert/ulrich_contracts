@@ -92,7 +92,7 @@ const ContractDetail = () => {
 
   function onHandleUpdate(): void {
     axios
-      .put(`/api/v1/uContracts/${id}`, state.current, {
+      .put(`/api/v1/contracts/${id}`, state.current, {
         headers: {
           "ngrok-skip-browser-warning": "69420",
           "Content-Type": "application/json",
@@ -112,7 +112,7 @@ const ContractDetail = () => {
 
   function onHandleDelete() {
     axios
-      .delete(`/api/v1/dContracts/${id}`, {
+      .delete(`/api/v1/contracts/${id}`, {
         headers: {
           "ngrok-skip-browser-warning": "69420",
           "Access-Control-Allow-Origin": "*",
