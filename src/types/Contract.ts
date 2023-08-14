@@ -1,21 +1,21 @@
 export type Contract = {
-  id: string;
-  propositionNum: string;
-  codeProduct: string;
-  nameClient: string;
-  telClient: string;
-  emailClient: string;
-  codeClient: string;
-  payeurCode: string;
-  namePayeur: string;
-  surnamePayeur: string;
-  telPayeur: string;
-  creationDate: string;
-  effectDate: string;
-  expiryDate: string;
-  nameRedac: string;
-  codeAgent: string;
-  status: string;
+  id?: number;
+  propositionNum?: number;
+  codeProduct?: number;
+  nameClient?: string;
+  telClient?: string;
+  emailClient?: string;
+  codeClient?: string;
+  payeurCode?: number;
+  namePayeur?: string;
+  surnamePayeur?: string;
+  telPayeur?: string;
+  creationDate?: string;
+  effectDate?: string;
+  expiryDate?: string;
+  nameRedac?: string;
+  codeAgent?: number;
+  status?: number; // Needs to be changed to string with ulrich API
 };
 
 // API RESPONSE
