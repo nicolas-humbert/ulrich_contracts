@@ -60,13 +60,15 @@ const Contracts = () => {
   useEffect(() => {
     function fetchContracts() {
       axios
-        .get(`${BASE_BACKEND_URL}/api/Contract/`, {
+        .get(`/api/v1/contracts`, {
           headers: {
+            "ngrok-skip-browser-warning": "69420",
             "Content-Type": "application/json",
             Accept: "application/json",
           },
         })
         .then(function (response) {
+          // console.log(response);
           setState({ ...state, data: response.data, loading: false });
         })
         .catch((err) => {

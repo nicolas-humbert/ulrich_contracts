@@ -2,7 +2,6 @@ import { FormEvent, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { CONTRACTS_LINK } from "../routes/links";
-import { BASE_BACKEND_URL } from "../utils/URLS";
 import { Button } from "react-aria-components";
 import PageTitle from "../components/PageTitle";
 import CTextField from "../components/CTextField";
@@ -31,7 +30,7 @@ const NewContract = () => {
 
   const onSendingPostRequest = (data: AddContractRequest) => {
     axios
-      .post(`${BASE_BACKEND_URL}/api/Contract`, data)
+      .post(`/api/v1/contracts`, data)
       .then(function (response) {
         console.log(response);
         navigate(`${CONTRACTS_LINK}/${response.data.id}`);

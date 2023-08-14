@@ -43,10 +43,11 @@ const ContractDetail = () => {
     // Fetch
     function fetchContract() {
       axios
-        .get(`${BASE_BACKEND_URL}/api/Contract/${id}`, {
+        .get(`/api/v1/contracts/${id}`, {
           headers: {
             "Content-Type": "application/json",
             Accept: "application/json",
+            "ngrok-skip-browser-warning": "69420",
           },
         })
         .then((response) => {
@@ -77,7 +78,7 @@ const ContractDetail = () => {
       ...state,
       current: {
         ...state.current,
-        status: parseInt(e.toString()),
+        status: e.toString(),
       },
     });
   }
@@ -91,12 +92,19 @@ const ContractDetail = () => {
 
   function onHandleUpdate(): void {
     axios
-      .put(`${BASE_BACKEND_URL}/api/Contract/${id}`, state.current)
+      .put(`/api/v1/uContracts/${id}`, state.current, {
+        headers: {
+          "ngrok-skip-browser-warning": "69420",
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+      })
       .then((response) => {
         console.log(response.status);
         navigate(0);
       })
       .catch((err) => {
+        console.log(state.current);
         setError(err);
         console.log(err);
       });
@@ -104,7 +112,14 @@ const ContractDetail = () => {
 
   function onHandleDelete() {
     axios
-      .delete(`${BASE_BACKEND_URL}/api/Contract/${id}`)
+      .delete(`/api/v1/dContracts/${id}`, {
+        headers: {
+          "ngrok-skip-browser-warning": "69420",
+          "Access-Control-Allow-Origin": "*",
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+      })
       .then((response) => {
         console.log(response.data);
         navigate(`${CONTRACTS_LINK}`);
@@ -162,13 +177,13 @@ const ContractDetail = () => {
                 selectedKey={state.current.status}
                 onSelectionChange={(e) => onHandleSelectChange(e)}
               >
-                <CSelectItem id={1} key={1}>
+                <CSelectItem id="Nouveau" key={1}>
                   Nouveau
                 </CSelectItem>
-                <CSelectItem id={2} key={2}>
+                <CSelectItem id="En cours" key={2}>
                   En cours
                 </CSelectItem>
-                <CSelectItem id={3} key={3}>
+                <CSelectItem id="Fermé" key={3}>
                   Fermé
                 </CSelectItem>
               </CSelectField>

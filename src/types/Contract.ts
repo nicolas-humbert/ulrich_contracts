@@ -15,7 +15,7 @@ export type Contract = {
   expiryDate?: string;
   nameRedac?: string;
   codeAgent?: number;
-  status?: number; // Needs to be changed to string with ulrich API
+  status?: string;
 };
 
 // API RESPONSE
