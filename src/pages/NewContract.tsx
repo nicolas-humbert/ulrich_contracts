@@ -44,21 +44,13 @@ const NewContract = () => {
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const date = new Date();
-
-    const day = date.getDate();
-    const month = date.getMonth() + 1;
-    const year = date.getFullYear();
-
-    // This arrangement can be altered based on how we want the date's format to appear.
-    const currentDate = `${day}-${month}-${year}`;
-
+    const date = new Date().toISOString();
     const dataToSubmit = {
       ...state,
-      creationDate: currentDate,
-      effectDate: currentDate,
-      expiryDate: currentDate,
-      status: 0,
+      creationDate: date,
+      effectDate: date,
+      expiryDate: date,
+      status: 1,
     };
 
     onSendingPostRequest(dataToSubmit);
