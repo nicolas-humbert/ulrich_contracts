@@ -1,19 +1,24 @@
 import { BrowserRouter } from "react-router-dom";
-import { IS_LOGGED_IN_USER } from "./utils/USER";
+import { LOCAL_STORAGE_TOKEN_KEY } from "./utils/USER";
 import LoggedInUserRouter from "./routes/LoggedInUserRouter";
 import AnonymousUserRouter from "./routes/AnonymousUserRouter";
 import Navbar from "./layout/Navbar";
 import Copyright from "./layout/Copyright";
+import { getLocalStorageObjectWithExpiry } from "./utils/localStorage";
+import { useState } from "react";
+
+type AppState = {
+  userIsLoggedIn: string | null;
+};
 
 function App() {
-  // Determines if user is logged in or not
-  // For now use src/utils/USER.ts to tweak the values
-  // Change auth value to anything truthy for user logged in and admin
-  // Otherwise 0 for anonymous user
+  const [state, setState] = useState<AppState>({
+    userIsLoggedIn: getLocalStorageObjectWithExpiry(LOCAL_STORAGE_TOKEN_KEY),
+  });
 
   return (
     <BrowserRouter>
-      {IS_LOGGED_IN_USER ? (
+      {state.userIsLoggedIn ? (
         <div id="ApplicationBody">
           <Navbar />
           <LoggedInUserRouter />

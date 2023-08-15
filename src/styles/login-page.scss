@@ -21,4 +21,11 @@
     min-width: 400px;
     margin-bottom: 40px;
   }
+
+  .login-error-message {
+    letter-spacing: -0.1em;
+    font-size: 1.3em;
+    text-align: center;
+    color: $warningColor;
+  }
 }
