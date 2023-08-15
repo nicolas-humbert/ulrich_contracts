@@ -1,4 +1,7 @@
 import { NavLink } from "react-router-dom";
+import { Button } from "react-aria-components";
+import { LOCAL_STORAGE_TOKEN_KEY } from "../utils/USER";
+import { removeLocalStorageObject } from "../utils/localStorage";
 import {
   ABOUT_LINK,
   ADD_CONTRACT_LINK,
@@ -12,11 +15,22 @@ import { BiFile, BiInfoCircle, BiUser, BiUserPlus } from "react-icons/bi";
 import "../styles/navbar.scss";
 
 const Navbar = () => {
+  function onHandleLogout(): void {
+    try {
+      removeLocalStorageObject(LOCAL_STORAGE_TOKEN_KEY);
+      window.location.assign(`${LOGIN_LINK}`);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
     <nav role="tablist" className="main-navigation-sidebar">
       <div className="tabs-navigation">
         <header className="site-title">
-          <NavLink to={HOME_LINK}>Smartract</NavLink>
+          <NavLink className="nav-item" to={HOME_LINK}>
+            Smartract
+          </NavLink>
         </header>
 
         <NavLink className="nav-item" role="menuitem" to={ABOUT_LINK}>
@@ -36,14 +50,9 @@ const Navbar = () => {
         </NavLink>
       </div>
 
-      <NavLink
-        className="nav-item"
-        role="menuitem"
-        onClick={() => alert("Not implemented")}
-        to={LOGIN_LINK}
-      >
+      <Button className="nav-item" onPress={onHandleLogout}>
         <BiUser /> <span>Déconnexion</span>
-      </NavLink>
+      </Button>
     </nav>
   );
 };
