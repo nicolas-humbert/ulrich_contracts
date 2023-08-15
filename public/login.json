@@ -1,0 +1,16 @@
+[
+  {
+    "id": 1,
+    "email": "admin@admin.fr",
+    "password": "12345",
+    "isAdmin": true,
+    "token": "adminToken"
+  },
+  {
+    "id": 2,
+    "email": "user@user.fr",
+    "password": "12345",
+    "isAdmin": false,
+    "token": "userToken"
+  }
+]
