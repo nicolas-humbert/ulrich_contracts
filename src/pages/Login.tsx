@@ -1,25 +1,25 @@
-import axios from "axios";
 import { FormEvent, useEffect, useState } from "react";
+import axios from "axios";
+import { CONTRACTS_LINK } from "../routes/links";
 import { Button } from "react-aria-components";
 import CTextField from "../components/CTextField";
-import { LoginResponseUser, User, UserLoginRequest } from "../types/User";
-import "../styles/login-page.scss";
+import { UserLoginRequest } from "../types/User";
 import { setLocalStorageObjectWithExpiry } from "../utils/localStorage";
-import { useNavigate } from "react-router-dom";
-import { CONTRACTS_LINK } from "../routes/links";
-import ErrorMessage from "../components/ErrorMessage";
+import "../styles/login-page.scss";
+import SpinnerSmall from "../components/SpinnerSmall";
+// import ErrorMessage from "../components/ErrorMessage";
 
 type LoginState = {
   form?: UserLoginRequest;
   error?: Error;
-  authFailed?: boolean;
+  isSendingLoginRequest: boolean;
 };
 
 const Login = () => {
   const [state, setState] = useState<LoginState>({
-    authFailed: false,
+    isSendingLoginRequest: false,
   });
-  const { form, error, authFailed } = state;
+  const { form, error, isSendingLoginRequest } = state;
 
   useEffect(() => {
     // Changes color of the body to be less agressive on this page
@@ -28,8 +28,11 @@ const Login = () => {
   }, []);
 
   async function authenticate() {
+    setState({
+      ...state,
+      isSendingLoginRequest: true,
+    });
     axios
-      // .post("/login.json")
       .post("/auth/sign-in", form, {
         method: "POST",
         headers: {
@@ -39,40 +42,25 @@ const Login = () => {
         },
       })
       .then((response) => {
-        console.log(response);
+        // console.log(response);
         return response.data;
       })
-      // .then((data) => {
-      //   const findUser: LoginResponseUser[] = data.filter(
-      //     (u: LoginResponseUser) => u.email == form?.username
-      //   );
+      .then((data) => {
+        setLocalStorageObjectWithExpiry(
+          "smartract_user_token",
+          `${data.tokenType} ${data.accessToken}`,
+          // 7 * 24 * 60 * 60 * 1000 // seven days
+          24 * 60 * 1000 // 24 min (??)
+        );
+        window.location.assign(`${CONTRACTS_LINK}`);
+      })
 
-      //   if (findUser.length === 0) {
-      //     setState({
-      //       ...state,
-      //       authFailed: true,
-      //     });
-      //     return;
-      //   }
-      //   if (findUser[0].password === form?.password) {
-      //     setLocalStorageObjectWithExpiry(
-      //       "smartract_user_token",
-      //       findUser[0].token,
-      //       7 * 24 * 60 * 60 * 1000 // seven days
-      //     );
-      //     window.location.assign(`${CONTRACTS_LINK}`);
-      //   } else {
-      //     setState({
-      //       ...state,
-      //       authFailed: true,
-      //     });
-      //   }
-      // })
       .catch((err) => {
         console.log(err);
         setState({
           ...state,
           error: err,
+          isSendingLoginRequest: false,
         });
       });
   }
@@ -97,13 +85,15 @@ const Login = () => {
   return (
     <div className="container" id="LoginPage">
       <h1 className="login-title">SMARTRACT</h1>
-      {authFailed && (
+      {error && (
         <p className="login-error-message">
           Erreur d'identification lors de la connexion.
           <br />
           Vérifiez vos identifiants.
         </p>
       )}
+
+      {isSendingLoginRequest && <SpinnerSmall />}
       <form action="GET" className="login-form">
         <CTextField
           placeholder="WhiteCarrot69"
@@ -135,7 +125,7 @@ const Login = () => {
         SE CONNECTER
       </Button>
 
-      {error && <ErrorMessage error={error} />}
+      {/* {error && <ErrorMessage error={error} />} */}
     </div>
   );
 };
