@@ -7,6 +7,7 @@ import "../styles/login-page.scss";
 import { setLocalStorageObjectWithExpiry } from "../utils/localStorage";
 import { useNavigate } from "react-router-dom";
 import { CONTRACTS_LINK } from "../routes/links";
+import ErrorMessage from "../components/ErrorMessage";
 
 type LoginState = {
   form?: UserLoginRequest;
@@ -28,37 +29,45 @@ const Login = () => {
 
   async function authenticate() {
     axios
-      .post("/login.json")
+      // .post("/login.json")
+      .post("/auth/sign-in", form, {
+        method: "POST",
+        headers: {
+          "ngrok-skip-browser-warning": "69420",
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+      })
       .then((response) => {
-        // console.log(response.data);
+        console.log(response);
         return response.data;
       })
-      .then((data) => {
-        const findUser: LoginResponseUser[] = data.filter(
-          (u: LoginResponseUser) => u.email == form?.email
-        );
+      // .then((data) => {
+      //   const findUser: LoginResponseUser[] = data.filter(
+      //     (u: LoginResponseUser) => u.email == form?.username
+      //   );
 
-        if (findUser.length === 0) {
-          setState({
-            ...state,
-            authFailed: true,
-          });
-          return;
-        }
-        if (findUser[0].password === form?.password) {
-          setLocalStorageObjectWithExpiry(
-            "smartract_user_token",
-            findUser[0].token,
-            7 * 24 * 60 * 60 * 1000 // seven days
-          );
-          window.location.assign(`${CONTRACTS_LINK}`);
-        } else {
-          setState({
-            ...state,
-            authFailed: true,
-          });
-        }
-      })
+      //   if (findUser.length === 0) {
+      //     setState({
+      //       ...state,
+      //       authFailed: true,
+      //     });
+      //     return;
+      //   }
+      //   if (findUser[0].password === form?.password) {
+      //     setLocalStorageObjectWithExpiry(
+      //       "smartract_user_token",
+      //       findUser[0].token,
+      //       7 * 24 * 60 * 60 * 1000 // seven days
+      //     );
+      //     window.location.assign(`${CONTRACTS_LINK}`);
+      //   } else {
+      //     setState({
+      //       ...state,
+      //       authFailed: true,
+      //     });
+      //   }
+      // })
       .catch((err) => {
         console.log(err);
         setState({
@@ -97,11 +106,11 @@ const Login = () => {
       )}
       <form action="GET" className="login-form">
         <CTextField
-          placeholder="w.carrot@papycho.com"
-          label="Email"
-          name="email"
-          id="email"
-          type="email"
+          placeholder="WhiteCarrot69"
+          label="Nom d'utilisateur"
+          name="username"
+          id="username"
+          type="text"
           defaultValue=""
           isRequired
           onInput={onHandleChange}
@@ -125,6 +134,8 @@ const Login = () => {
       >
         SE CONNECTER
       </Button>
+
+      {error && <ErrorMessage error={error} />}
     </div>
   );
 };

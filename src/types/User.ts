@@ -1,5 +1,5 @@
 export type UserLoginRequest = {
-  email?: string;
+  username?: string;
   password?: string;
 };
 
