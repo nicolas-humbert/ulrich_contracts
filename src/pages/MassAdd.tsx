@@ -1,7 +1,6 @@
 import { ChangeEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { BASE_BACKEND_URL } from "../utils/URLS";
 import { CONTRACTS_LINK } from "../routes/links";
 import { Button } from "react-aria-components";
 import PageTitle from "../components/PageTitle";

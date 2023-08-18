@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { BASE_BACKEND_URL } from "../utils/URLS";
 import { Contract } from "../types/Contract";
 import Spinner from "../components/Spinner";
 import PageTitle from "../components/PageTitle";

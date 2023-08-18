@@ -2,7 +2,6 @@ import { useState, useEffect, Key } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { CONTRACTS_LINK } from "../routes/links";
-import { BASE_BACKEND_URL } from "../utils/URLS";
 import { Contract } from "../types/Contract";
 import { Button } from "react-aria-components";
 import Spinner from "../components/Spinner";
