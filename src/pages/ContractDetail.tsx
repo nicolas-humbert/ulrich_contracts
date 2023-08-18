@@ -22,23 +22,32 @@ import "../styles/contract-detail-page.scss";
 import "../styles/error.scss";
 import ErrorMessage from "../components/ErrorMessage";
 
+type ContractType = {
+  id: number;
+  name: string;
+  status: string[];
+};
+
 type ContractPageState = {
   current?: Contract;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  type: any;
   loading: boolean;
 };
 
 const ContractDetail = () => {
   const [state, setState] = useState<ContractPageState>({
+    type: {},
     current: undefined,
     loading: true,
   });
-  const [error, setError] = useState<Error>();
+  const [error, setError] = useState<Error[]>();
 
+  const { type, current, loading } = state;
   const { id } = useParams();
   const navigate = useNavigate();
 
   useEffect(() => {
-    setState;
     // Fetch
     function fetchContract() {
       axios
@@ -53,6 +62,7 @@ const ContractDetail = () => {
           {
             // console.log(state?.current);
             setState({
+              ...state,
               current: response.data,
               loading: false,
             });
@@ -68,7 +78,36 @@ const ContractDetail = () => {
         });
     }
 
+    function fetchContractStatus() {
+      axios
+        .get(`/api/v1/contracts/contract-status/get/${id}`, {
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            "ngrok-skip-browser-warning": "69420",
+          },
+        })
+        .then((response) => {
+          {
+            console.log(response);
+            setState({
+              ...state,
+              type: response.data,
+            });
+          }
+        })
+        .catch((err) => {
+          setState({
+            ...state,
+            loading: false,
+          });
+          setError(err);
+          throw error;
+        });
+    }
+
     fetchContract();
+    fetchContractStatus();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
@@ -76,7 +115,7 @@ const ContractDetail = () => {
     setState({
       ...state,
       current: {
-        ...state.current,
+        ...current,
         status: e.toString(),
       },
     });
@@ -91,7 +130,7 @@ const ContractDetail = () => {
 
   function onHandleUpdate(): void {
     axios
-      .put(`/api/v1/contracts/${id}`, state.current, {
+      .put(`/api/v1/contracts/${id}`, current, {
         headers: {
           "ngrok-skip-browser-warning": "69420",
           "Content-Type": "application/json",
@@ -103,7 +142,7 @@ const ContractDetail = () => {
         navigate(0);
       })
       .catch((err) => {
-        console.log(state.current);
+        console.log(current);
         setError(err);
         console.log(err);
       });
@@ -129,7 +168,7 @@ const ContractDetail = () => {
       });
   }
 
-  if (state.loading) {
+  if (loading) {
     return <Spinner />;
   }
 
@@ -144,7 +183,7 @@ const ContractDetail = () => {
         </div>
       ) : (
         <div className="container" id="ContractPage">
-          <PageTitle text={`Contrat n° ${state.current.propositionNum}`} />
+          <PageTitle text={`Contrat n° ${current?.propositionNum}`} />
 
           <main>
             {/* INFORMATIONS GENERALES CONTRAT */}
@@ -158,7 +197,7 @@ const ContractDetail = () => {
                 name="propositionNum"
                 id="propositionNum"
                 type="text"
-                value={state.current.propositionNum?.toString()}
+                value={current?.propositionNum?.toString()}
                 isReadOnly
               />
               <CTextField
@@ -166,16 +205,26 @@ const ContractDetail = () => {
                 name="codeProduct"
                 id="codeProduct"
                 type="text"
-                value={state.current.codeProduct?.toString()}
+                value={current?.codeProduct?.toString()}
                 isReadOnly
               />
               <CSelectField
                 label="Statut"
                 id="status"
                 name="status"
-                selectedKey={state.current.status}
+                selectedKey={current?.status}
                 onSelectionChange={(e) => onHandleSelectChange(e)}
               >
+                {/* A remettre quand on aura les status des types de contrat */}
+                {/* {type.status.length > 0 &&
+                  type.status.map((s: ContractType, id: number) => {
+                    return (
+                      <CSelectItem id={s.name} key={id}>
+                        {s.name}
+                      </CSelectItem>
+                    );
+                  })} */}
+
                 <CSelectItem id="Nouveau" key={1}>
                   Nouveau
                 </CSelectItem>
@@ -186,6 +235,15 @@ const ContractDetail = () => {
                   Fermé
                 </CSelectItem>
               </CSelectField>
+
+              <CTextField
+                label="Type de contrat"
+                name="contractType"
+                id="contractType"
+                type="text"
+                value={type.name}
+                isReadOnly
+              />
             </div>
 
             {/* INFORMATIONS CLIENT */}
@@ -199,7 +257,7 @@ const ContractDetail = () => {
                 name="codeClient"
                 id="codeClient"
                 type="text"
-                value={state.current.codeClient}
+                value={current?.codeClient}
                 isReadOnly
               />
               <CTextField
@@ -207,7 +265,7 @@ const ContractDetail = () => {
                 name="nameClient"
                 id="nameClient"
                 type="text"
-                value={state.current.nameClient}
+                value={current?.nameClient}
                 isReadOnly={!IS_ADMIN_USER}
               />
               <CTextField
@@ -215,7 +273,7 @@ const ContractDetail = () => {
                 name="telClient"
                 id="telClient"
                 type="text"
-                value={state.current.telClient}
+                value={current?.telClient}
                 isReadOnly={!IS_ADMIN_USER}
               />
               <CTextField
@@ -223,7 +281,7 @@ const ContractDetail = () => {
                 name="emailClient"
                 id="emailClient"
                 type="email"
-                value={state.current.emailClient}
+                value={current?.emailClient}
                 isReadOnly={!IS_ADMIN_USER}
               />
             </div>
@@ -239,7 +297,7 @@ const ContractDetail = () => {
                 name="payeurCode"
                 id="payeurCode"
                 type="text"
-                value={state.current.payeurCode?.toString()}
+                value={current?.payeurCode?.toString()}
                 isReadOnly
               />
               <CTextField
@@ -247,7 +305,7 @@ const ContractDetail = () => {
                 name="namePayeur"
                 id="namePayeur"
                 type="text"
-                value={state.current.namePayeur}
+                value={current?.namePayeur}
                 isReadOnly={!IS_ADMIN_USER}
               />
               <CTextField
@@ -255,7 +313,7 @@ const ContractDetail = () => {
                 name="surnamePayeur"
                 id="surnamePayeur"
                 type="text"
-                value={state.current.surnamePayeur}
+                value={current?.surnamePayeur}
                 isReadOnly={!IS_ADMIN_USER}
               />
               <CTextField
@@ -263,7 +321,7 @@ const ContractDetail = () => {
                 name="telPayeur"
                 id="telPayeur"
                 type="text"
-                value={state.current.telPayeur}
+                value={current?.telPayeur}
                 isReadOnly={!IS_ADMIN_USER}
               />
             </div>
@@ -279,7 +337,7 @@ const ContractDetail = () => {
                 name="creationDate"
                 id="creationDate"
                 type="text"
-                value={state.current.creationDate}
+                value={current?.creationDate}
                 isReadOnly
               />
               <CTextField
@@ -287,7 +345,7 @@ const ContractDetail = () => {
                 name="effectDate"
                 id="effectDate"
                 type="text"
-                value={state.current.effectDate}
+                value={current?.effectDate}
                 isReadOnly={!IS_ADMIN_USER}
               />
               <CTextField
@@ -295,7 +353,7 @@ const ContractDetail = () => {
                 name="expiryDate"
                 id="expiryDate"
                 type="text"
-                value={state.current.expiryDate}
+                value={current?.expiryDate}
                 isReadOnly={!IS_ADMIN_USER}
               />
             </div>
@@ -311,7 +369,7 @@ const ContractDetail = () => {
                 name="nameRedac"
                 id="nameRedac"
                 type="text"
-                value={state.current.nameRedac}
+                value={current?.nameRedac}
                 isReadOnly
               />
               <CTextField
@@ -319,13 +377,14 @@ const ContractDetail = () => {
                 name="codeAgent"
                 id="codeAgent"
                 type="text"
-                value={state.current.codeAgent?.toString()}
+                value={current?.codeAgent?.toString()}
                 isReadOnly
               />
             </div>
           </main>
 
-          {error && <ErrorMessage error={error} />}
+          {error && <ErrorMessage error={error[0]} />}
+          {error && <ErrorMessage error={error[1]} />}
 
           <div className="action-buttons">
             <Button
