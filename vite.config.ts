@@ -1,7 +1,7 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 
-const BASE_URL = "https://cb97-41-86-253-66.ngrok-free.app/";
+const BASE_URL = "https://c195-154-66-140-224.ngrok-free.app/";
 
 // https://vitejs.dev/config/
 export default defineConfig({

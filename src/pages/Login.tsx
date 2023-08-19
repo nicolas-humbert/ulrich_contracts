@@ -7,6 +7,15 @@ import { UserLoginRequest } from "../types/User";
 import { setLocalStorageObjectWithExpiry } from "../utils/localStorage";
 import "../styles/login-page.scss";
 import SpinnerSmall from "../components/SpinnerSmall";
+import DashboardCell from "../components/DashboardCell";
+
+import {
+  PiClockCountdown,
+  PiClockCounterClockwise,
+  PiFolderLockLight,
+  PiHandCoins,
+} from "react-icons/pi";
+
 // import ErrorMessage from "../components/ErrorMessage";
 
 type LoginState = {

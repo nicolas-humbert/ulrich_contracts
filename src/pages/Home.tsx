@@ -1,21 +1,57 @@
-import { NavLink } from "react-router-dom";
-import { ABOUT_LINK, CONTRACTS_LINK, LOGIN_LINK } from "../routes/links";
+import PageTitle from "../components/PageTitle";
+import DashboardCell from "../components/DashboardCell";
+import {
+  PiClockCountdown,
+  PiHandCoins,
+  PiClockCounterClockwise,
+  PiFolderLockLight,
+} from "react-icons/pi";
+import "../styles/home.scss";
 
 const Home = () => {
   return (
     <main id="HomePage">
-      <h1>Home</h1>
-      <ul>
-        <li>
-          <NavLink to={LOGIN_LINK}>Login</NavLink>
-        </li>
-        <li>
-          <NavLink to={ABOUT_LINK}>About</NavLink>
-        </li>
-        <li>
-          <NavLink to={CONTRACTS_LINK}>See Contracts</NavLink>
-        </li>
-      </ul>
+      <PageTitle text="Accueil" />
+
+      <div
+        className="db-cells-wrapper"
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: "2em",
+          marginTop: "50px",
+        }}
+      >
+        <DashboardCell
+          icon={PiClockCountdown}
+          title="Résultats du mois"
+          color="green"
+          value={182700}
+          isCurrency
+          currency="XOF"
+        />
+        <DashboardCell
+          icon={PiHandCoins}
+          title="Chiffre d'affaire"
+          color="light"
+          value={1887.27}
+          isCurrency
+          currency="EUR"
+        />
+        <DashboardCell
+          icon={PiClockCounterClockwise}
+          title="Nouveaux clients sur 30 jours"
+          color="yellow"
+          value={0}
+        />
+        <DashboardCell
+          icon={PiFolderLockLight}
+          title="Contrats en cours"
+          color="orange"
+          value={127}
+        />
+      </div>
     </main>
   );
 };
