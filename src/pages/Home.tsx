@@ -1,5 +1,5 @@
 import PageTitle from "../components/PageTitle";
-import DashboardCell from "../components/DashboardCell";
+import DashboardQuarterCell from "../components/DashboardQuarterCell";
 import {
   PiClockCountdown,
   PiHandCoins,
@@ -23,7 +23,7 @@ const Home = () => {
           marginTop: "50px",
         }}
       >
-        <DashboardCell
+        <DashboardQuarterCell
           icon={PiClockCountdown}
           title="Résultats du mois"
           color="green"
@@ -31,7 +31,7 @@ const Home = () => {
           isCurrency
           currency="XOF"
         />
-        <DashboardCell
+        <DashboardQuarterCell
           icon={PiHandCoins}
           title="Chiffre d'affaire"
           color="light"
@@ -39,16 +39,16 @@ const Home = () => {
           isCurrency
           currency="EUR"
         />
-        <DashboardCell
+        <DashboardQuarterCell
           icon={PiClockCounterClockwise}
           title="Nouveaux clients sur 30 jours"
           color="yellow"
           value={0}
         />
-        <DashboardCell
+        <DashboardQuarterCell
           icon={PiFolderLockLight}
           title="Contrats en cours"
-          color="orange"
+          color="pink"
           value={127}
         />
       </div>

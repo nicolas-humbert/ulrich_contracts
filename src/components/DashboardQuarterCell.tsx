@@ -1,6 +1,7 @@
 import React from "react";
 import { IconType } from "react-icons";
-import "../styles/dashboard-cell.scss";
+import "../styles/dashboard-cells.scss";
+import { TbDots } from "react-icons/tb";
 
 type Props = {
   title: string;
@@ -9,10 +10,10 @@ type Props = {
   isCurrency?: boolean;
   currency?: "EUR" | "USD" | "XOF";
   color: "green" | "pink" | "light" | "yellow" | "orange";
-  // colors:  #c2fcc1, #fcdfff, #fefefe, #f4fe9b, #fddbcf;
+  // vals #c2fcc1, #fcdfff, #fefefe, #f4fe9b, #fddbcf;
 };
 
-const DashboardCell = ({
+const DashboardQuarterCell = ({
   title,
   value,
   icon,
@@ -50,15 +51,16 @@ const DashboardCell = ({
 
   return (
     <div className="dashboard-cell" style={defineBgColor()}>
-      <div className="dc-icon">{icon && React.createElement(icon)}</div>
-      <div className="dc-value">
-        <span className="dc-number">
-          {isCurrency ? formatValueNumber : value}
+      <div className="dc-icon">
+        <span>{icon && React.createElement(icon)}</span>
+        <span className="dc-dots">
+          <TbDots />
         </span>
       </div>
+      <div className="dc-value">{isCurrency ? formatValueNumber : value}</div>
       <div className="dc-title">{title}</div>
     </div>
   );
 };
 
-export default DashboardCell;
+export default DashboardQuarterCell;

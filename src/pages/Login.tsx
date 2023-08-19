@@ -1,20 +1,12 @@
 import { FormEvent, useEffect, useState } from "react";
 import axios from "axios";
-import { CONTRACTS_LINK } from "../routes/links";
 import { Button } from "react-aria-components";
-import CTextField from "../components/CTextField";
+import { CONTRACTS_LINK } from "../routes/links";
 import { UserLoginRequest } from "../types/User";
+import CTextField from "../components/CTextField";
+import SpinnerSmall from "../components/SpinnerSmall";
 import { setLocalStorageObjectWithExpiry } from "../utils/localStorage";
 import "../styles/login-page.scss";
-import SpinnerSmall from "../components/SpinnerSmall";
-import DashboardCell from "../components/DashboardCell";
-
-import {
-  PiClockCountdown,
-  PiClockCounterClockwise,
-  PiFolderLockLight,
-  PiHandCoins,
-} from "react-icons/pi";
 
 // import ErrorMessage from "../components/ErrorMessage";
 
