@@ -1,0 +1,42 @@
+@import "./constants.scss";
+
+.dashboard-cell {
+  font-family: $secondaryFont;
+  color: $fontsColor;
+
+  width: 25%;
+  min-width: 250px;
+  max-width: 350px;
+  height: 250px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: space-evenly;
+
+  padding: 30px;
+
+  border: 3px solid $fontsColor;
+  border-radius: 15%;
+}
+
+.dc-icon {
+  font-size: 2.8em;
+}
+.dc-value {
+  margin-bottom: 20px;
+  letter-spacing: -0.05em;
+  width: 100%;
+  text-align: start;
+  .dc-number {
+    font-size: 2em;
+    margin-right: 10px;
+  }
+}
+
+.dc-title {
+  font-size: 1.3em;
+  height: 60px;
+  display: flex;
+  align-items: center;
+}
