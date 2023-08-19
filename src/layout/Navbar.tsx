@@ -48,6 +48,10 @@ const Navbar = () => {
         <NavLink className="nav-item" role="menuitem" to={MASS_ADD_LINK}>
           <AiOutlineFileAdd /> <span>Ajout CSV</span>
         </NavLink>
+
+        <NavLink className="nav-item" role="menuitem" to={"/redux"}>
+          <AiOutlineFileAdd /> <span>Redux</span>
+        </NavLink>
       </div>
 
       <Button className="nav-item" onPress={onHandleLogout}>

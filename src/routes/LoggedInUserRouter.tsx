@@ -15,6 +15,7 @@ import {
   MASS_ADD_LINK,
   CONTRACTS_DETAIL_LINK,
 } from "./links";
+import Redux from "../pages/Redux";
 
 const LoggedInUserRouter = () => {
   useEffect(() => {
@@ -31,6 +32,7 @@ const LoggedInUserRouter = () => {
       <Route path={ADD_CONTRACT_LINK} element={<NewContract />} />
       <Route path={MASS_ADD_LINK} element={<MassAdd />} />
       <Route path={CONTRACTS_DETAIL_LINK} element={<ContractDetail />} />
+      <Route path={"/redux"} element={<Redux />} />
       <Route path={"*"} element={<NotFound />} />
     </Routes>
   );

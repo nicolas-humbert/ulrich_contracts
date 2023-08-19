@@ -6,6 +6,8 @@ import Navbar from "./layout/Navbar";
 import Copyright from "./layout/Copyright";
 import { getLocalStorageObjectWithExpiry } from "./utils/localStorage";
 import { useState } from "react";
+import { Provider } from "react-redux";
+import { store } from "./store/store";
 
 type AppState = {
   userIsLoggedIn: string | null;
@@ -17,17 +19,19 @@ function App() {
   });
 
   return (
-    <BrowserRouter>
-      {state.userIsLoggedIn ? (
-        <div id="ApplicationBody">
-          <Navbar />
-          <LoggedInUserRouter />
-        </div>
-      ) : (
-        <AnonymousUserRouter />
-      )}
-      <Copyright />
-    </BrowserRouter>
+    <Provider store={store}>
+      <BrowserRouter>
+        {state.userIsLoggedIn ? (
+          <div id="ApplicationBody">
+            <Navbar />
+            <LoggedInUserRouter />
+          </div>
+        ) : (
+          <AnonymousUserRouter />
+        )}
+        <Copyright />
+      </BrowserRouter>
+    </Provider>
   );
 }
 

@@ -8,6 +8,8 @@ import NoSearchResultMessage from "../components/NoSearchResultMessage";
 import { FaSearch } from "react-icons/fa";
 import "../styles/table.scss";
 import "../styles/contracts-page.scss";
+import { useAppDispatch, useAppSelector } from "../store/store";
+import { setContracts } from "../store/features/contractSlice";
 
 type ContractsPageState = {
   data: Contract[];
@@ -17,12 +19,15 @@ type ContractsPageState = {
 };
 
 const Contracts = () => {
+  const selector = useAppSelector((state) => state.contracts.contracts);
   const [state, setState] = useState<ContractsPageState>({
-    data: [],
+    data: selector ?? [],
     query: "",
     filtered: [],
-    loading: true,
+    loading: false,
   });
+
+  const dispatch = useAppDispatch();
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleChange = (e: any) => {
@@ -58,6 +63,10 @@ const Contracts = () => {
 
   useEffect(() => {
     function fetchContracts() {
+      setState({
+        ...state,
+        loading: true,
+      });
       axios
         .get(`/api/v1/contracts`, {
           headers: {
@@ -69,6 +78,7 @@ const Contracts = () => {
         .then(function (response) {
           // console.log(response);
           setState({ ...state, data: response.data, loading: false });
+          dispatch(setContracts({ contracts: response.data }));
         })
         .catch((err) => {
           setState({ ...state, loading: false });
@@ -76,7 +86,9 @@ const Contracts = () => {
         });
     }
 
-    fetchContracts();
+    if (state.data.length === 0) {
+      fetchContracts();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
