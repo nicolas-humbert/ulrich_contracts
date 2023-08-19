@@ -22,22 +22,25 @@ import "../styles/contract-detail-page.scss";
 import "../styles/error.scss";
 import ErrorMessage from "../components/ErrorMessage";
 
-type ContractType = {
+type ContractStatus = {
   id: number;
   name: string;
-  status: string[];
+  contractType: {
+    id: number;
+    name: string;
+  };
 };
 
 type ContractPageState = {
   current?: Contract;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  type: any;
+  type: ContractStatus[];
   loading: boolean;
 };
 
 const ContractDetail = () => {
   const [state, setState] = useState<ContractPageState>({
-    type: {},
+    type: [],
     current: undefined,
     loading: true,
   });
@@ -48,66 +51,44 @@ const ContractDetail = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Fetch
-    function fetchContract() {
-      axios
-        .get(`/api/v1/contracts/${id}`, {
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-            "ngrok-skip-browser-warning": "69420",
-          },
-        })
-        .then((response) => {
-          {
-            // console.log(state?.current);
-            setState({
-              ...state,
-              current: response.data,
-              loading: false,
-            });
-          }
-        })
-        .catch((err) => {
-          setState({
-            ...state,
-            loading: false,
-          });
-          setError(err);
-          throw error;
-        });
-    }
+    const urls = [
+      `/api/v1/contracts/${id}`,
+      `/api/v1/contracts/contract-status/get/${id}`,
+    ];
 
-    function fetchContractStatus() {
-      axios
-        .get(`/api/v1/contracts/contract-status/get/${id}`, {
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-            "ngrok-skip-browser-warning": "69420",
-          },
-        })
-        .then((response) => {
-          {
-            console.log(response);
-            setState({
-              ...state,
-              type: response.data,
-            });
-          }
-        })
-        .catch((err) => {
-          setState({
-            ...state,
-            loading: false,
-          });
-          setError(err);
-          throw error;
-        });
-    }
+    const headers = {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      "ngrok-skip-browser-warning": "69420",
+    };
 
-    fetchContract();
-    fetchContractStatus();
+    Promise.all([
+      fetch(urls[0], { headers: headers }),
+      fetch(urls[1], { headers: headers }),
+    ])
+      .then(function (responses) {
+        return Promise.all(
+          responses.map(function (response) {
+            return response.json();
+          })
+        );
+      })
+      .then(function (data) {
+        setState({
+          current: data[0],
+          type: data[1],
+          loading: false,
+        });
+      })
+      .catch(function (err) {
+        console.log(err);
+        setState({
+          ...state,
+          loading: false,
+        });
+        setError(err);
+      });
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
@@ -172,6 +153,8 @@ const ContractDetail = () => {
     return <Spinner />;
   }
 
+  console.log(state);
+
   return (
     <div>
       {!state?.current ? (
@@ -215,25 +198,14 @@ const ContractDetail = () => {
                 selectedKey={current?.status}
                 onSelectionChange={(e) => onHandleSelectChange(e)}
               >
-                {/* A remettre quand on aura les status des types de contrat */}
-                {/* {type.status.length > 0 &&
-                  type.status.map((s: ContractType, id: number) => {
+                {type.length > 0 &&
+                  type.map((s: ContractStatus, id: number) => {
                     return (
                       <CSelectItem id={s.name} key={id}>
                         {s.name}
                       </CSelectItem>
                     );
-                  })} */}
-
-                <CSelectItem id="Nouveau" key={1}>
-                  Nouveau
-                </CSelectItem>
-                <CSelectItem id="En cours" key={2}>
-                  En cours
-                </CSelectItem>
-                <CSelectItem id="Fermé" key={3}>
-                  Fermé
-                </CSelectItem>
+                  })}
               </CSelectField>
 
               <CTextField
@@ -241,7 +213,7 @@ const ContractDetail = () => {
                 name="contractType"
                 id="contractType"
                 type="text"
-                value={type.name}
+                value={type[0]?.contractType.name}
                 isReadOnly
               />
             </div>
