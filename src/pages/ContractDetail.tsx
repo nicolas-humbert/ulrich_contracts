@@ -33,27 +33,31 @@ type ContractStatus = {
 
 type ContractPageState = {
   current?: Contract;
+  currentType: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  type: ContractStatus[];
+  statuses: ContractStatus[];
   loading: boolean;
 };
 
 const ContractDetail = () => {
   const [state, setState] = useState<ContractPageState>({
-    type: [],
+    statuses: [],
     current: undefined,
     loading: true,
+    currentType: "Banque",
   });
   const [error, setError] = useState<Error[]>();
 
-  const { type, current, loading } = state;
+  const { statuses, current, loading, currentType } = state;
   const { id } = useParams();
   const navigate = useNavigate();
 
   useEffect(() => {
     const urls = [
       `/api/v1/contracts/${id}`,
-      `/api/v1/contracts/contract-status/get/${id}`,
+      `/api/v1/contracts/contract-status/get/1`,
+      `/api/v1/contracts/contract-status/get/2`,
+      `/api/v1/contracts/contract-status/get/3`,
     ];
 
     const headers = {
@@ -65,6 +69,8 @@ const ContractDetail = () => {
     Promise.all([
       fetch(urls[0], { headers: headers }),
       fetch(urls[1], { headers: headers }),
+      fetch(urls[2], { headers: headers }),
+      fetch(urls[3], { headers: headers }),
     ])
       .then(function (responses) {
         return Promise.all(
@@ -75,8 +81,9 @@ const ContractDetail = () => {
       })
       .then(function (data) {
         setState({
+          ...state,
           current: data[0],
-          type: data[1],
+          statuses: data[1].concat(data[2]).concat(data[3]),
           loading: false,
         });
       })
@@ -99,6 +106,13 @@ const ContractDetail = () => {
         ...current,
         status: e.toString(),
       },
+    });
+  }
+
+  function onHandleTypeChange(e: Key) {
+    setState({
+      ...state,
+      currentType: e.toString(),
     });
   }
 
@@ -153,8 +167,6 @@ const ContractDetail = () => {
     return <Spinner />;
   }
 
-  console.log(state);
-
   return (
     <div>
       {!state?.current ? (
@@ -197,25 +209,30 @@ const ContractDetail = () => {
                 name="status"
                 selectedKey={current?.status}
                 onSelectionChange={(e) => onHandleSelectChange(e)}
+                items={statuses}
               >
-                {type.length > 0 &&
-                  type.map((s: ContractStatus, id: number) => {
+                {statuses
+                  .filter((s) => s.contractType.name === currentType)
+                  .map((s, id) => {
                     return (
-                      <CSelectItem id={s.name} key={id}>
+                      <CSelectItem id={s.name} key={s.id}>
                         {s.name}
                       </CSelectItem>
                     );
                   })}
               </CSelectField>
 
-              <CTextField
+              <CSelectField
                 label="Type de contrat"
                 name="contractType"
                 id="contractType"
-                type="text"
-                value={type[0]?.contractType.name}
-                isReadOnly
-              />
+                selectedKey={currentType}
+                onSelectionChange={(e) => onHandleTypeChange(e)}
+              >
+                <CSelectItem id="Banque">Banque</CSelectItem>
+                <CSelectItem id="Trésor">Trésor</CSelectItem>
+                <CSelectItem id="Espèce">Espèce</CSelectItem>
+              </CSelectField>
             </div>
 
             {/* INFORMATIONS CLIENT */}
