@@ -4,17 +4,20 @@ import PageTitle from "../components/PageTitle";
 import { IS_LOGGED_IN_USER } from "../utils/USER";
 import { CONTRACTS_LINK, LOGIN_LINK } from "../routes/links";
 import "../styles/not-found.scss";
+import { useAppDispatch, useAppSelector } from "../store/store";
+import { getCurrentUser } from "../services/auth";
+import { setUser } from "../store/features/userSlice";
 
 const NotFound = () => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
-    // Changes color of the body to be less agressive on this page
-    // Uses color defined in index.css
-    document.body.style.backgroundColor = "#f4f5f0";
+    const user = JSON.parse(getCurrentUser());
+    dispatch(setUser({ user: user }));
 
     setTimeout(() => {
-      if (IS_LOGGED_IN_USER) {
+      if (user.accessToken) {
         navigate(`${CONTRACTS_LINK}`);
       } else {
         navigate(`${LOGIN_LINK}`);

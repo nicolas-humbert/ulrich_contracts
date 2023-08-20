@@ -7,17 +7,19 @@ import CTextField from "../components/CTextField";
 import SpinnerSmall from "../components/SpinnerSmall";
 import { setLocalStorageObjectWithExpiry } from "../utils/localStorage";
 import "../styles/login-page.scss";
+import { login } from "../services/auth";
 
 // import ErrorMessage from "../components/ErrorMessage";
 
 type LoginState = {
-  form?: UserLoginRequest;
+  form: UserLoginRequest;
   error?: Error;
   isSendingLoginRequest: boolean;
 };
 
 const Login = () => {
   const [state, setState] = useState<LoginState>({
+    form: {},
     isSendingLoginRequest: false,
   });
   const { form, error, isSendingLoginRequest } = state;
@@ -26,6 +28,8 @@ const Login = () => {
     // Changes color of the body to be less agressive on this page
     // Uses $tertiaryColor defined in src/styles/constants.scss
     document.body.style.backgroundColor = "#fcdfff";
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   async function authenticate() {
@@ -33,41 +37,22 @@ const Login = () => {
       ...state,
       isSendingLoginRequest: true,
     });
-    axios
-      .post("/auth/sign-in", form, {
-        method: "POST",
-        headers: {
-          "ngrok-skip-browser-warning": "69420",
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-      })
-      .then((response) => {
-        // console.log(response);
-        return response.data;
-      })
-      .then((data) => {
-        setLocalStorageObjectWithExpiry(
-          "smartract_user_token",
-          `${data.tokenType} ${data.accessToken}`,
-          // 7 * 24 * 60 * 60 * 1000 // seven days
-          24 * 60 * 1000 // 24 min (??)
-        );
-        window.location.assign(`${CONTRACTS_LINK}`);
-      })
-
-      .catch((err) => {
-        console.log(err);
-        setState({
-          ...state,
-          error: err,
-          isSendingLoginRequest: false,
-        });
-      });
   }
 
   function onHandleSubmit(): void {
     authenticate();
+    try {
+      login(form);
+    } catch (err) {
+      if (err instanceof Error)
+        [
+          setState({
+            ...state,
+            error: err,
+            isSendingLoginRequest: false,
+          }),
+        ];
+    }
   }
 
   function onHandleChange(e: FormEvent<HTMLInputElement>): void {
