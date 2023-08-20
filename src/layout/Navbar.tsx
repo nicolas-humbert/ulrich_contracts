@@ -1,27 +1,20 @@
 import { NavLink } from "react-router-dom";
 import { Button } from "react-aria-components";
-import { LOCAL_STORAGE_TOKEN_KEY } from "../utils/USER";
-import { removeLocalStorageObject } from "../utils/localStorage";
 import {
   ABOUT_LINK,
   ADD_CONTRACT_LINK,
   CONTRACTS_LINK,
   HOME_LINK,
-  LOGIN_LINK,
   MASS_ADD_LINK,
 } from "../routes/links";
 import { AiOutlineFileAdd } from "react-icons/ai";
 import { BiFile, BiInfoCircle, BiUser, BiUserPlus } from "react-icons/bi";
 import "../styles/navbar.scss";
+import { logout } from "../services/auth";
 
 const Navbar = () => {
-  function onHandleLogout(): void {
-    try {
-      removeLocalStorageObject(LOCAL_STORAGE_TOKEN_KEY);
-      window.location.assign(`${LOGIN_LINK}`);
-    } catch (error) {
-      console.log(error);
-    }
+  function onhandleLogout() {
+    logout();
   }
 
   return (
@@ -54,7 +47,7 @@ const Navbar = () => {
         </NavLink>
       </div>
 
-      <Button className="nav-item" onPress={onHandleLogout}>
+      <Button className="nav-item" onPress={onhandleLogout}>
         <BiUser /> <span>Déconnexion</span>
       </Button>
     </nav>

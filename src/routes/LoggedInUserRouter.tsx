@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import Home from "../pages/Home";
 import About from "../pages/About";
 import MassAdd from "../pages/MassAdd";
@@ -6,7 +5,7 @@ import NotFound from "../pages/NotFound";
 import Contracts from "../pages/Contracts";
 import NewContract from "../pages/NewContract";
 import ContractDetail from "../pages/ContractDetail";
-import { Route, Routes } from "react-router-dom";
+import { Route, RouteProps, Routes } from "react-router-dom";
 import {
   HOME_LINK,
   ABOUT_LINK,
@@ -14,27 +13,85 @@ import {
   ADD_CONTRACT_LINK,
   MASS_ADD_LINK,
   CONTRACTS_DETAIL_LINK,
+  LOGIN_LINK,
 } from "./links";
-import Redux from "../pages/Redux";
+// import Redux from "../pages/Redux";
+import Login from "../pages/Login";
+import Layout from "../layout/Layout";
+import Copyright from "../layout/Copyright";
+import { BearerToken } from "../types/BearerToken";
+import Protected from "./Protected";
 
-const LoggedInUserRouter = () => {
-  useEffect(() => {
-    // Changes color of the body to be less agressive on this page
-    // Uses color defined in index.css
-    document.body.style.backgroundColor = "#f4f5f0";
-  }, []);
+type UserProps = {
+  isSignedIn?: BearerToken;
+};
+
+const LoggedInUserRouter = ({ isSignedIn }: UserProps) => {
+  const routes: RouteProps[] = [
+    {
+      path: HOME_LINK,
+      element: (
+        <Protected isSignedIn={isSignedIn}>
+          <Home />
+        </Protected>
+      ),
+    },
+    {
+      path: ABOUT_LINK,
+      element: (
+        <Protected isSignedIn={isSignedIn}>
+          <About />
+        </Protected>
+      ),
+    },
+    {
+      path: MASS_ADD_LINK,
+      element: (
+        <Protected isSignedIn={isSignedIn}>
+          <MassAdd />
+        </Protected>
+      ),
+    },
+    {
+      path: CONTRACTS_LINK,
+      element: (
+        <Protected isSignedIn={isSignedIn}>
+          <Contracts />
+        </Protected>
+      ),
+    },
+    {
+      path: ADD_CONTRACT_LINK,
+      element: (
+        <Protected isSignedIn={isSignedIn}>
+          <NewContract />
+        </Protected>
+      ),
+    },
+    {
+      path: CONTRACTS_DETAIL_LINK,
+      element: (
+        <Protected isSignedIn={isSignedIn}>
+          <ContractDetail />
+        </Protected>
+      ),
+    },
+  ];
 
   return (
-    <Routes>
-      <Route path={HOME_LINK} element={<Home />} />
-      <Route path={ABOUT_LINK} element={<About />} />
-      <Route path={CONTRACTS_LINK} element={<Contracts />} />
-      <Route path={ADD_CONTRACT_LINK} element={<NewContract />} />
-      <Route path={MASS_ADD_LINK} element={<MassAdd />} />
-      <Route path={CONTRACTS_DETAIL_LINK} element={<ContractDetail />} />
-      <Route path={"/redux"} element={<Redux />} />
-      <Route path={"*"} element={<NotFound />} />
-    </Routes>
+    <>
+      <Routes>
+        <Route element={<Layout />}>
+          {routes.map((r: RouteProps, id: number) => {
+            return <Route key={id} path={r.path} element={r.element} />;
+          })}
+        </Route>
+
+        <Route path={LOGIN_LINK} element={<Login />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+      <Copyright />
+    </>
   );
 };
 
