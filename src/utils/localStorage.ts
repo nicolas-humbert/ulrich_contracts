@@ -1,3 +1,5 @@
+export const LOCAL_STORAGE_TOKEN_KEY: string = "smartract_user_token";
+
 export function getLocalStorageObjectWithExpiry(key: string): null | string {
   const itemStr = localStorage.getItem(key);
   // if the item doesn't exist, return null

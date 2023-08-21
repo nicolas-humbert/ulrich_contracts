@@ -5,8 +5,6 @@
 export let IS_LOGGED_IN_USER: boolean;
 export let IS_ADMIN_USER: boolean;
 
-export const LOCAL_STORAGE_TOKEN_KEY: string = "smartract_user_token";
-
 const auth: number = 0;
 const admin: number = 0;
 

@@ -3,15 +3,14 @@ export type UserLoginRequest = {
   password?: string;
 };
 
-export type LoginResponseUser = {
-  email: string;
-  password: string;
-  isAdmin: boolean;
-  token: string;
+export type Role = {
+  authority: string;
+  roleId: number;
 };
 
-export type User = {
-  email: string;
-  isAdmin: boolean;
-  token: string;
+export type LoggedInUser = {
+  exp: number;
+  iat: string;
+  role: Role[];
+  sub: string;
 };

@@ -1,4 +1,4 @@
-import { LOCAL_STORAGE_TOKEN_KEY } from "../utils/USER";
+import { LOCAL_STORAGE_TOKEN_KEY } from "../utils/localStorage";
 import { LOGIN_LINK } from "../routes/links";
 
 export function logout(): void {
