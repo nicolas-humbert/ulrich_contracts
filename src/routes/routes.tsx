@@ -13,9 +13,11 @@ import {
   ADD_CONTRACT_LINK,
   CONTRACTS_DETAIL_LINK,
   LOGIN_LINK,
+  STATS_LINK,
 } from "./links";
 import Login from "../pages/Login";
 import NotFound from "../pages/NotFound";
+import Stats from "../pages/Stats";
 
 export const protectedRoutes: RouteProps[] = [
   {
@@ -41,6 +43,10 @@ export const protectedRoutes: RouteProps[] = [
   {
     path: CONTRACTS_DETAIL_LINK,
     element: <ContractDetail />,
+  },
+  {
+    path: STATS_LINK,
+    element: <Stats />,
   },
 ];
 

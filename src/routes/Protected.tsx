@@ -2,7 +2,7 @@ import { Navigate } from "react-router-dom";
 import { BearerToken } from "../types/BearerToken";
 import { LOGIN_LINK } from "./links";
 import { ReactNode } from "react";
-import jwt_decode from "jwt-decode";
+// import jwt_decode from "jwt-decode";
 
 export type ProtectedProps = {
   isSignedIn?: BearerToken;
@@ -10,10 +10,10 @@ export type ProtectedProps = {
 };
 
 function Protected({ isSignedIn, children }: ProtectedProps) {
-  if (isSignedIn?.accessToken) {
-    const decoded = jwt_decode(isSignedIn?.accessToken);
-    console.log(decoded);
-  }
+  // if (isSignedIn?.accessToken) {
+  // const decoded = jwt_decode(isSignedIn?.accessToken);
+  // console.log(decoded);
+  // }
   return (
     <>
       {!isSignedIn?.accessToken ? (

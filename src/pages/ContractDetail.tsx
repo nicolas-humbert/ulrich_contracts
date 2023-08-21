@@ -80,10 +80,13 @@ const ContractDetail = () => {
         );
       })
       .then(function (data) {
+        console.log(data);
         setState({
           ...state,
           current: data[0],
-          statuses: data[1].concat(data[2]).concat(data[3]),
+          statuses: data[1][0].statuses
+            .concat(data[2][0].statuses)
+            .concat(data[3][0].statuses),
           loading: false,
         });
       })
@@ -110,6 +113,7 @@ const ContractDetail = () => {
   }
 
   function onHandleTypeChange(e: Key) {
+    // console.log(statuses);
     setState({
       ...state,
       currentType: e.toString(),
@@ -212,8 +216,8 @@ const ContractDetail = () => {
                 items={statuses}
               >
                 {statuses
-                  .filter((s) => s.contractType.name === currentType)
-                  .map((s, id) => {
+                  .filter((s) => s.name === currentType)
+                  .map((s) => {
                     return (
                       <CSelectItem id={s.name} key={s.id}>
                         {s.name}
