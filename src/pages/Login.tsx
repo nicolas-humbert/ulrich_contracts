@@ -5,7 +5,7 @@ import CTextField from "../components/CTextField";
 import SpinnerSmall from "../components/SpinnerSmall";
 import "../styles/login-page.scss";
 import { useNavigate } from "react-router-dom";
-import { CONTRACTS_LINK, HOME_LINK } from "../routes/links";
+import { HOME_LINK } from "../routes/links";
 import axios from "axios";
 import { useAppSelector } from "../store/store";
 
@@ -55,7 +55,7 @@ const Login = () => {
       .then((data) => {
         // console.log(data);
         localStorage.setItem("smartract_user_token", JSON.stringify(data));
-        window.location.assign(CONTRACTS_LINK);
+        window.location.assign(HOME_LINK);
       })
       .catch((err) => {
         console.log(err);
