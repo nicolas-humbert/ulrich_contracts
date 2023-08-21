@@ -1,11 +1,14 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { BearerToken } from "../../types/BearerToken";
+import { getCurrentUser } from "../../services/auth";
 
 interface UserState {
   user?: BearerToken;
 }
 
-const initialState: UserState = {};
+const initialState: UserState = {
+  user: JSON.parse(getCurrentUser()),
+};
 
 export const UserSlice = createSlice({
   name: "user",

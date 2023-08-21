@@ -21,73 +21,60 @@ import Layout from "../layout/Layout";
 import Copyright from "../layout/Copyright";
 import { BearerToken } from "../types/BearerToken";
 import Protected from "./Protected";
+import { useAppDispatch, useAppSelector } from "../store/store";
 
-type UserProps = {
-  isSignedIn?: BearerToken;
-};
+// type UserProps = {
+//   isSignedIn?: BearerToken;
+// };
 
-const LoggedInUserRouter = ({ isSignedIn }: UserProps) => {
+const SmartractRouter = () => {
+  const userSelector = useAppSelector((state) => state.user.user);
+
   const routes: RouteProps[] = [
     {
       path: HOME_LINK,
-      element: (
-        <Protected isSignedIn={isSignedIn}>
-          <Home />
-        </Protected>
-      ),
+      element: <Home />,
     },
     {
       path: ABOUT_LINK,
-      element: (
-        <Protected isSignedIn={isSignedIn}>
-          <About />
-        </Protected>
-      ),
+      element: <About />,
     },
     {
       path: MASS_ADD_LINK,
-      element: (
-        <Protected isSignedIn={isSignedIn}>
-          <MassAdd />
-        </Protected>
-      ),
+      element: <MassAdd />,
     },
     {
       path: CONTRACTS_LINK,
-      element: (
-        <Protected isSignedIn={isSignedIn}>
-          <Contracts />
-        </Protected>
-      ),
+      element: <Contracts />,
     },
     {
       path: ADD_CONTRACT_LINK,
-      element: (
-        <Protected isSignedIn={isSignedIn}>
-          <NewContract />
-        </Protected>
-      ),
+      element: <NewContract />,
     },
     {
       path: CONTRACTS_DETAIL_LINK,
-      element: (
-        <Protected isSignedIn={isSignedIn}>
-          <ContractDetail />
-        </Protected>
-      ),
+      element: <ContractDetail />,
     },
   ];
 
   return (
     <>
       <Routes>
+        <Route path={LOGIN_LINK} element={<Login />} />
         <Route element={<Layout />}>
           {routes.map((r: RouteProps, id: number) => {
-            return <Route key={id} path={r.path} element={r.element} />;
+            return (
+              <Route
+                key={id}
+                path={r.path}
+                element={
+                  <Protected isSignedIn={userSelector} children={r.element} />
+                }
+              />
+            );
           })}
         </Route>
 
-        <Route path={LOGIN_LINK} element={<Login />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       <Copyright />
@@ -95,4 +82,4 @@ const LoggedInUserRouter = ({ isSignedIn }: UserProps) => {
   );
 };
 
-export default LoggedInUserRouter;
+export default SmartractRouter;

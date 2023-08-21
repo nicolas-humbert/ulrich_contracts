@@ -1,13 +1,13 @@
 import { FormEvent, useEffect, useState } from "react";
-import axios from "axios";
 import { Button } from "react-aria-components";
-import { CONTRACTS_LINK } from "../routes/links";
 import { UserLoginRequest } from "../types/User";
 import CTextField from "../components/CTextField";
 import SpinnerSmall from "../components/SpinnerSmall";
-import { setLocalStorageObjectWithExpiry } from "../utils/localStorage";
 import "../styles/login-page.scss";
-import { login } from "../services/auth";
+import { useNavigate } from "react-router-dom";
+import { CONTRACTS_LINK, HOME_LINK } from "../routes/links";
+import axios from "axios";
+import { useAppSelector } from "../store/store";
 
 // import ErrorMessage from "../components/ErrorMessage";
 
@@ -23,14 +23,49 @@ const Login = () => {
     isSendingLoginRequest: false,
   });
   const { form, error, isSendingLoginRequest } = state;
+  const navigate = useNavigate();
+  const selector = useAppSelector((state) => state.user.user);
 
   useEffect(() => {
+    if (selector?.accessToken) {
+      navigate(HOME_LINK);
+    }
     // Changes color of the body to be less agressive on this page
     // Uses $tertiaryColor defined in src/styles/constants.scss
     document.body.style.backgroundColor = "#fcdfff";
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  function login(payload: UserLoginRequest) {
+    // console.log(payload);
+    axios
+      .post("/auth/sign-in", payload, {
+        method: "POST",
+        headers: {
+          "ngrok-skip-browser-warning": "69420",
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+      })
+      .then((response) => {
+        // console.log(response);
+        return response.data;
+      })
+      .then((data) => {
+        // console.log(data);
+        localStorage.setItem("smartract_user_token", JSON.stringify(data));
+        window.location.assign(CONTRACTS_LINK);
+      })
+      .catch((err) => {
+        console.log(err);
+        setState({
+          ...state,
+          error: err,
+          isSendingLoginRequest: false,
+        });
+      });
+  }
 
   async function authenticate() {
     setState({
@@ -41,18 +76,7 @@ const Login = () => {
 
   function onHandleSubmit(): void {
     authenticate();
-    try {
-      login(form);
-    } catch (err) {
-      if (err instanceof Error)
-        [
-          setState({
-            ...state,
-            error: err,
-            isSendingLoginRequest: false,
-          }),
-        ];
-    }
+    login(form);
   }
 
   function onHandleChange(e: FormEvent<HTMLInputElement>): void {
