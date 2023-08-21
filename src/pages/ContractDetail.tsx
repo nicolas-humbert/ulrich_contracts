@@ -2,7 +2,7 @@ import { useState, useEffect, Key } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { CONTRACTS_LINK } from "../routes/links";
-import { Contract } from "../types/Contract";
+import { Contract, ContractType } from "../types/Contract";
 import { Button } from "react-aria-components";
 import Spinner from "../components/Spinner";
 import PageTitle from "../components/PageTitle";
@@ -21,43 +21,32 @@ import { IS_ADMIN_USER } from "../utils/USER";
 import "../styles/contract-detail-page.scss";
 import "../styles/error.scss";
 import ErrorMessage from "../components/ErrorMessage";
-
-type ContractStatus = {
-  id: number;
-  name: string;
-  contractType: {
-    id: number;
-    name: string;
-  };
-};
+import { nanoid } from "nanoid";
 
 type ContractPageState = {
-  current?: Contract;
-  currentType: string;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  statuses: ContractStatus[];
+  currentContract?: Contract;
+  types: ContractType[];
+  currentType?: ContractType;
   loading: boolean;
 };
 
 const ContractDetail = () => {
   const [state, setState] = useState<ContractPageState>({
-    statuses: [],
-    current: undefined,
+    currentContract: undefined,
     loading: true,
-    currentType: "Banque",
+    types: [],
+    currentType: undefined,
   });
   const [error, setError] = useState<Error[]>();
 
-  const { statuses, current, loading, currentType } = state;
+  const { currentContract, types, currentType, loading } = state;
   const { id } = useParams();
   const navigate = useNavigate();
 
   useEffect(() => {
     const urls = [
       `/api/v1/contracts/${id}`,
-      `/api/v1/contracts/contract-status/get/1`,
-      `/api/v1/contracts/contract-status/get/2`,
-      `/api/v1/contracts/contract-status/get/3`,
+      `/api/v1/contracts/contract-type-with-status`,
     ];
 
     const headers = {
@@ -69,8 +58,6 @@ const ContractDetail = () => {
     Promise.all([
       fetch(urls[0], { headers: headers }),
       fetch(urls[1], { headers: headers }),
-      fetch(urls[2], { headers: headers }),
-      fetch(urls[3], { headers: headers }),
     ])
       .then(function (responses) {
         return Promise.all(
@@ -80,13 +67,12 @@ const ContractDetail = () => {
         );
       })
       .then(function (data) {
-        console.log(data);
+        const type = data[0].type - 1;
         setState({
           ...state,
-          current: data[0],
-          statuses: data[1][0].statuses
-            .concat(data[2][0].statuses)
-            .concat(data[3][0].statuses),
+          currentContract: data[0],
+          types: data[1],
+          currentType: data[1][type],
           loading: false,
         });
       })
@@ -102,24 +88,6 @@ const ContractDetail = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
-  function onHandleSelectChange(e: Key) {
-    setState({
-      ...state,
-      current: {
-        ...current,
-        status: e.toString(),
-      },
-    });
-  }
-
-  function onHandleTypeChange(e: Key) {
-    // console.log(statuses);
-    setState({
-      ...state,
-      currentType: e.toString(),
-    });
-  }
-
   function onHandleActionButton(message: string, callback: () => void) {
     const result = confirm(message);
     if (result) {
@@ -127,9 +95,28 @@ const ContractDetail = () => {
     }
   }
 
+  function switchTypeForUpdate(type: string): number {
+    let res;
+    switch (type) {
+      case "Espèce":
+        res = 1;
+        break;
+      case "Banque":
+        res = 2;
+        break;
+      case "Trésor":
+        res = 3;
+        break;
+      default:
+        res = 4;
+        break;
+    }
+    return res;
+  }
+
   function onHandleUpdate(): void {
     axios
-      .put(`/api/v1/contracts/${id}`, current, {
+      .put(`/api/v1/contracts/${id}`, currentContract, {
         headers: {
           "ngrok-skip-browser-warning": "69420",
           "Content-Type": "application/json",
@@ -141,7 +128,6 @@ const ContractDetail = () => {
         navigate(0);
       })
       .catch((err) => {
-        console.log(current);
         setError(err);
         console.log(err);
       });
@@ -158,12 +144,12 @@ const ContractDetail = () => {
         },
       })
       .then((response) => {
-        console.log(response.data);
+        // console.log(response.data);
         navigate(`${CONTRACTS_LINK}`);
       })
       .catch((err) => {
         setError(err);
-        console.error(error);
+        console.error(err);
       });
   }
 
@@ -171,9 +157,34 @@ const ContractDetail = () => {
     return <Spinner />;
   }
 
+  function onHandleStatusChange(e: Key) {
+    setState({
+      ...state,
+      currentContract: {
+        ...currentContract,
+        status: e.toString(),
+      },
+    });
+  }
+
+  function onHandleTypeChange(e: Key) {
+    // console.log(currentContract);
+    const newType = switchTypeForUpdate(e.toString());
+    console.log(currentContract);
+    setState({
+      ...state,
+      currentType: types.filter((t) => t.typeName === e)[0],
+      currentContract: {
+        ...currentContract,
+        type: newType,
+        status: "",
+      },
+    });
+  }
+
   return (
     <div>
-      {!state?.current ? (
+      {!currentContract ? (
         <div id="NoContractPage">
           <PageTitle text="404 - Not Found" />
           <NoSearchResultMessage
@@ -182,7 +193,7 @@ const ContractDetail = () => {
         </div>
       ) : (
         <div className="container" id="ContractPage">
-          <PageTitle text={`Contrat n° ${current?.propositionNum}`} />
+          <PageTitle text={`Contrat n° ${currentContract?.propositionNum}`} />
 
           <main>
             {/* INFORMATIONS GENERALES CONTRAT */}
@@ -196,7 +207,7 @@ const ContractDetail = () => {
                 name="propositionNum"
                 id="propositionNum"
                 type="text"
-                value={current?.propositionNum?.toString()}
+                value={currentContract?.propositionNum?.toString()}
                 isReadOnly
               />
               <CTextField
@@ -204,39 +215,43 @@ const ContractDetail = () => {
                 name="codeProduct"
                 id="codeProduct"
                 type="text"
-                value={current?.codeProduct?.toString()}
+                value={currentContract?.codeProduct?.toString()}
                 isReadOnly
               />
-              <CSelectField
-                label="Statut"
-                id="status"
-                name="status"
-                selectedKey={current?.status}
-                onSelectionChange={(e) => onHandleSelectChange(e)}
-                items={statuses}
-              >
-                {statuses
-                  .filter((s) => s.name === currentType)
-                  .map((s) => {
-                    return (
-                      <CSelectItem id={s.name} key={s.id}>
-                        {s.name}
-                      </CSelectItem>
-                    );
-                  })}
-              </CSelectField>
 
               <CSelectField
                 label="Type de contrat"
-                name="contractType"
-                id="contractType"
-                selectedKey={currentType}
+                name="type"
+                id="type"
+                selectedKey={currentType?.typeName}
                 onSelectionChange={(e) => onHandleTypeChange(e)}
               >
-                <CSelectItem id="Banque">Banque</CSelectItem>
-                <CSelectItem id="Trésor">Trésor</CSelectItem>
-                <CSelectItem id="Espèce">Espèce</CSelectItem>
+                {types.map((t) => {
+                  return (
+                    <CSelectItem id={t.typeName} key={nanoid()}>
+                      {t.typeName}
+                    </CSelectItem>
+                  );
+                })}
               </CSelectField>
+
+              {currentType && (
+                <CSelectField
+                  label="Statut"
+                  id="status"
+                  name="status"
+                  selectedKey={currentContract?.status}
+                  onSelectionChange={(e) => onHandleStatusChange(e)}
+                >
+                  {currentType?.statuses.map((s) => {
+                    return (
+                      <CSelectItem id={s} key={nanoid()}>
+                        {s}
+                      </CSelectItem>
+                    );
+                  })}
+                </CSelectField>
+              )}
             </div>
 
             {/* INFORMATIONS CLIENT */}
@@ -250,7 +265,7 @@ const ContractDetail = () => {
                 name="codeClient"
                 id="codeClient"
                 type="text"
-                value={current?.codeClient}
+                value={currentContract?.codeClient}
                 isReadOnly
               />
               <CTextField
@@ -258,7 +273,7 @@ const ContractDetail = () => {
                 name="nameClient"
                 id="nameClient"
                 type="text"
-                value={current?.nameClient}
+                value={currentContract?.nameClient}
                 isReadOnly={!IS_ADMIN_USER}
               />
               <CTextField
@@ -266,7 +281,7 @@ const ContractDetail = () => {
                 name="telClient"
                 id="telClient"
                 type="text"
-                value={current?.telClient}
+                value={currentContract?.telClient}
                 isReadOnly={!IS_ADMIN_USER}
               />
               <CTextField
@@ -274,7 +289,7 @@ const ContractDetail = () => {
                 name="emailClient"
                 id="emailClient"
                 type="email"
-                value={current?.emailClient}
+                value={currentContract?.emailClient}
                 isReadOnly={!IS_ADMIN_USER}
               />
             </div>
@@ -290,7 +305,7 @@ const ContractDetail = () => {
                 name="payeurCode"
                 id="payeurCode"
                 type="text"
-                value={current?.payeurCode?.toString()}
+                value={currentContract?.payeurCode?.toString()}
                 isReadOnly
               />
               <CTextField
@@ -298,7 +313,7 @@ const ContractDetail = () => {
                 name="namePayeur"
                 id="namePayeur"
                 type="text"
-                value={current?.namePayeur}
+                value={currentContract?.namePayeur}
                 isReadOnly={!IS_ADMIN_USER}
               />
               <CTextField
@@ -306,7 +321,7 @@ const ContractDetail = () => {
                 name="surnamePayeur"
                 id="surnamePayeur"
                 type="text"
-                value={current?.surnamePayeur}
+                value={currentContract?.surnamePayeur}
                 isReadOnly={!IS_ADMIN_USER}
               />
               <CTextField
@@ -314,7 +329,7 @@ const ContractDetail = () => {
                 name="telPayeur"
                 id="telPayeur"
                 type="text"
-                value={current?.telPayeur}
+                value={currentContract?.telPayeur}
                 isReadOnly={!IS_ADMIN_USER}
               />
             </div>
@@ -330,7 +345,7 @@ const ContractDetail = () => {
                 name="creationDate"
                 id="creationDate"
                 type="text"
-                value={current?.creationDate}
+                value={currentContract?.creationDate}
                 isReadOnly
               />
               <CTextField
@@ -338,7 +353,7 @@ const ContractDetail = () => {
                 name="effectDate"
                 id="effectDate"
                 type="text"
-                value={current?.effectDate}
+                value={currentContract?.effectDate}
                 isReadOnly={!IS_ADMIN_USER}
               />
               <CTextField
@@ -346,7 +361,7 @@ const ContractDetail = () => {
                 name="expiryDate"
                 id="expiryDate"
                 type="text"
-                value={current?.expiryDate}
+                value={currentContract?.expiryDate}
                 isReadOnly={!IS_ADMIN_USER}
               />
             </div>
@@ -362,7 +377,7 @@ const ContractDetail = () => {
                 name="nameRedac"
                 id="nameRedac"
                 type="text"
-                value={current?.nameRedac}
+                value={currentContract?.nameRedac}
                 isReadOnly
               />
               <CTextField
@@ -370,7 +385,7 @@ const ContractDetail = () => {
                 name="codeAgent"
                 id="codeAgent"
                 type="text"
-                value={current?.codeAgent?.toString()}
+                value={currentContract?.codeAgent?.toString()}
                 isReadOnly
               />
             </div>
