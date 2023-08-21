@@ -1,3 +1,30 @@
+@import "./constants.scss";
+
 #HomePage {
   margin-top: 2em;
+  font-family: $primaryFont;
+  .greetings {
+    margin-top: 50px;
+    color: $fontsColor;
+    width: 100%;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    .name {
+      font-size: 2em;
+      letter-spacing: -0.1em;
+    }
+    .status {
+      font-size: 1.3em;
+      letter-spacing: -0.1em;
+      border: 3px solid $fontsColor;
+      border-radius: 10px;
+      padding: 15px 10px;
+      background-color: $dashboardYellow;
+    }
+
+    span {
+      color: $buttonColor;
+    }
+  }
 }

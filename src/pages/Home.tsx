@@ -7,11 +7,24 @@ import {
   PiFolderLockLight,
 } from "react-icons/pi";
 import "../styles/home.scss";
+import { useAppSelector } from "../store/store";
+import jwtDecode from "jwt-decode";
+import { LoggedInUser } from "../types/User";
 
 const Home = () => {
+  const userSelector = useAppSelector((state) => state.user.user);
+  const decode: LoggedInUser = jwtDecode(userSelector?.accessToken ?? "");
+
   return (
     <main id="HomePage">
       <PageTitle text="Accueil" />
+
+      <div className="greetings">
+        <p className="name">
+          Bienvenue <span>{decode?.sub}</span>
+        </p>
+        <p className="status">Role actuel: {decode?.role[0]?.authority}</p>
+      </div>
 
       <div
         className="db-cells-wrapper"
